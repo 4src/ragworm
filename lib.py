@@ -3,6 +3,8 @@ import ast
 
 inf=float('inf')
 
+def same(x): return x
+
 def coerce(x):
   return x if x=="?" else ast.literal_eval(x)
 
