@@ -1,17 +1,21 @@
+# vim: set ts=2:sw=2:et:
 import re
 import ast
+import sys
 
-inf=float('inf')
+inf  = sys.maxsize / 2
+ninf = -inf - 1
 
-def same(x): return x
+def same(x)  : return x
+def coerce(x): return x if x=="?" else ast.literal_eval(x)
+def showd(d) : return "S("+(" ".join([f":{k} {v}" for k, v in d.items()]))+")"
 
-def coerce(x):
-  return x if x=="?" else ast.literal_eval(x)
-
-class O(object):
-  def __init__(self, **d): self.__dict__.update(**d)
-  def __repr__(self):
-    return self.__class__.__name__+"{"+(" ".join([f":{k} {v}" for k, v in d.items()]))+"}"
+class of(dict):
+  """dot.notation access to dictionary attributes"""
+  __getattr__ = dict.get
+  __setattr__ = dict.__setitem__
+  __delattr__ = dict.__delitem__
+  __repr__    = showd
 
 def csv(file:str):
   "Iterator for CSV files"

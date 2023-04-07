@@ -1,47 +1,68 @@
+# vim: set ts=2:sw=2:et:
 from lib import *
+from functools import cmp_to_key
+i
+the = of(cohen=.35, bin=9, file="../data/auto93.csv")
 
-the=O(cohen=.35,bis=5, file="../data/auto93.csv")
+def COL(c,s)
+  col = of(at=c, txt=s, isNum=s[0].isupper)
+  if col.isNum:
+    w = -1 if s[-1]=="-" else 1
+    col.lo = inf
+    col.hi = -inf
+  else:
+    col.seen={}
+  return col
 
 def COLS(a):
-  x,y,cols = [],[],[]
-  for c,s in enumerate(a)]
-    col = O(at=c, txt=s, w=w, isNum=s[0].isupper,
-            w = -1 if s[-1]=="-" else 1)
-    cols += [col]
-    if s[-1] != "X":
-      (y if x[-1] in "-+" else x).append(col)
-  return O(names=a, x=x, y=y, all=all)
+  x,y,all = [],[],[COL(c,s) for c,s in enumerate(a)]  
+  for col in all:
+    if s[-1] != "X": (y if x[-1] in "-+" else x).append(col)
+  return of(x=x,y=y,all=all, names=a)
 
 def DATA(file):
   cols, rows = [],[]
   for a in csv(ile):
     if not cols: cols = COLS(a)
-     else:       rows += [O(cells=a,cooked=a[:])]
-  return O(rows=rows, cols=cols)
+     else:       rows += [of(cells=a,cooked=a[:])]
+  return of(rows=rows, cols=cols)
 
-def sorts(data):
+def bins(data):
   for cols in [data.cols.x, data.cols.y]:
     for col in cols:
       if col.isNum:
-        x    = lambda row: row.cells[col.at]
-        a    = sorted([row for row in rows if x(row) != "?"],key=x)
-        eps  = the.cohen*stdev(a,key=x),
-        tiny = int(len(a)/the.bins)
-        nz,z,lo = 0,0,x(rows[0])
-        for row in a:
-          if nz==0: lo=x(row)
-          nz += 1
-          row.cooked[col.at] = z
-          lo = lo or x(row)
-          if nz > tiny and len(rows) - i > tiny:
-            if (x(row) != x(rows[i+1]):
-              if (x(row) - lo) > eps:
-                z += 1
-                nz = 0
+        x  = lambda row: row.cells[col.at]
+        a  = sorted([row for row in data.rows if x(row) != "?"], key=x)
+        n  = len(a)
+        sd = (x(a[int(n*.9)]) - x(a[int(n*.1)]))/2.56
+        _bins(a, x, eps=the.cohen*sd, tiny=n/the.bins)
+  return data
 
-def stdev(lst,key=lambda x:x):
-  n = len(lst)
-  return (key(lst[int(n*.9)]) - key(lst[int(n*.1)]))/2.56
+def _bins(rows,x,eps=.35,tiny=4):
+  nz,z,new, lo = 0,-1,True
+  for i,r in enumerate(rows):
+    if new:
+      nz, z, lo, new = 0, z+1, x(r), False
+    nz += 1
+    r.cooked[col.at] = z
+    new = nz > tiny and len(rows)-i > tiny and x(r)-lo > eps and x(r) != x(rows[i+1])
+
+def better(data, row1, row2):
+  s1, s2, cols, n = 0, 0, data.cols.y, len(data.cols.y)
+  for col in cols:
+    x    = lambda row: row.cells[col.at]
+    norm = lambda row: (x(col,row)-col.lo)/(col.hi - col.lo + 1/inf)
+    a, b = norm(col,row1), norm(col,row2)
+    s1 -= math.exp(col.w * (a - b) / n)
+    s2 -= math.exp(col.w * (b - a) / n)
+  return s1 / n < s2 / n
+
+  def fun(r1, r2): return better(data, r1, r2)
+  return sorted(rows or data.rows, key=cmp_to_key(fun))
+
+def betters(data: DATA, rows: list[ROW] = None) -> list[ROW]:
+  def fun(r1, r2): return better(data, r1, r2)
+  return sorted(rows or data.rows, key=cmp_to_key(fun))
 
 #################
 def add(col,x):
@@ -52,8 +73,3 @@ def add(col,x):
   else:
     col.nums += [x]
     col.sorted= False
-
-def has(num):
-  if not col.sorted(num): sorted(num.nums)
-
-
