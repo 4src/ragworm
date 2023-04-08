@@ -1,31 +1,45 @@
 # vim: set ts=2:sw=2:et:
 from lib import *
 from functools import cmp_to_key
-i
-the = of(cohen=.35, bin=9, file="../data/auto93.csv")
 
-def COL(c,s)
-  col = of(at=c, txt=s, isNum=s[0].isupper)
+the = has(cohen=.35, bin=9, file="../data/auto93.csv")
+
+def COL(c,s):
+  col = has(at=c, txt=s, isNum=s[0].isupper())
   if col.isNum:
     w = -1 if s[-1]=="-" else 1
-    col.lo = inf
+    col.lo =  inf
     col.hi = -inf
   else:
-    col.seen={}
+    col.seen = {}
   return col
 
 def COLS(a):
-  x,y,all = [],[],[COL(c,s) for c,s in enumerate(a)]  
-  for col in all:
-    if s[-1] != "X": (y if x[-1] in "-+" else x).append(col)
-  return of(x=x,y=y,all=all, names=a)
+  cols = has(names=a, x=[], y=[], all=[COL(c,s) for c,s in enumerate(a)])
+  for col in cols.all:
+    if col.txt[-1] != "X":
+      (cols.y if col.txt[-1] in "-+" else cols.x).append(col)
+  return cols
 
 def DATA(file):
-  cols, rows = [],[]
-  for a in csv(ile):
-    if not cols: cols = COLS(a)
-     else:       rows += [of(cells=a,cooked=a[:])]
-  return of(rows=rows, cols=cols)
+  data = has(cols=[], rows=[])
+  for a in csv(file):
+    if not data.cols:
+      data.cols = COLS(a)
+    else:
+      a = [coerce(x) for x in a]
+      data.rows += [has(cells=a, cooked=a[:])]
+      for cols in [data.cols.x, data.cols.y]:
+        for col in cols:
+          add(col, a[col.at])
+  return data
+
+def add(col,x):
+  if x != "?":
+    if col.isNum:
+      col.lo = min(x, col.lo)
+      col.hi = max(x, col.hi)
+  return x
 
 def bins(data):
   for cols in [data.cols.x, data.cols.y]:
@@ -34,8 +48,7 @@ def bins(data):
         x  = lambda row: row.cells[col.at]
         a  = sorted([row for row in data.rows if x(row) != "?"], key=x)
         n  = len(a)
-        sd = (x(a[int(n*.9)]) - x(a[int(n*.1)]))/2.56
-        _bins(a, x, eps=the.cohen*sd, tiny=n/the.bins)
+        _bins(a, x, eps=the.cohen*stdev(a,x), tiny=n/the.bins)
   return data
 
 def _bins(rows,x,eps=.35,tiny=4):
@@ -57,19 +70,9 @@ def better(data, row1, row2):
     s2 -= math.exp(col.w * (b - a) / n)
   return s1 / n < s2 / n
 
+def betters(data, rows):
   def fun(r1, r2): return better(data, r1, r2)
   return sorted(rows or data.rows, key=cmp_to_key(fun))
 
-def betters(data: DATA, rows: list[ROW] = None) -> list[ROW]:
-  def fun(r1, r2): return better(data, r1, r2)
-  return sorted(rows or data.rows, key=cmp_to_key(fun))
-
-#################
-def add(col,x):
-  if x == "?" then return
-  col.n += 1
-  if col.isNum:
-    col.syms[x] += get(col.syms,x,0) + 1
-  else:
-    col.nums += [x]
-    col.sorted= False
+def stdev(a,fun):
+  return (fun(a[ int(len(a)*.9) ]) - fun(a[ int(len(a)*.1) ]))/2.56
