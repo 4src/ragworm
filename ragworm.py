@@ -1,76 +1,107 @@
-# vim: set ts=2:sw=2:et:
+# vim: set et sts=2 sw=2 ts=2 :
 from lib import *
+import math
+from copy import deepcopy
 from functools import cmp_to_key
+#------------------------------------------------ --------- --------- ----------
+the = bag(cohen=.35, bins=9, file="../data/auto93.csv")
+#------------------------------------------------ --------- --------- ----------
+def SYM(c=0,s=" "):
+   return bag(ako=SYM, at=c, txt=s, n=0, tally={})
 
-the = has(cohen=.35, bin=9, file="../data/auto93.csv")
-
-def COL(c,s):
-  col = has(at=c, txt=s, isNum=s[0].isupper())
-  if col.isNum:
-    w = -1 if s[-1]=="-" else 1
-    col.lo =  inf
-    col.hi = -inf
-  else:
-    col.seen = {}
-  return col
+def NUM(c=0,s=" "):
+  return bag(ako=NUM, at=c, txt=s, n=0, mu=0, m2=0,
+              lo=inf, hi=-inf, w = -1 if s[-1]=="-" else 1)
 
 def COLS(a):
-  cols = has(names=a, x=[], y=[], all=[COL(c,s) for c,s in enumerate(a)])
-  for col in cols.all:
-    if col.txt[-1] != "X":
-      (cols.y if col.txt[-1] in "-+" else cols.x).append(col)
+  cols = bag(ako = COLS, names = a, x=[], y=[], all=[])
+  for c,s in enumerate(a):
+    col = (NUM if s[0].isupper() else SYM)(c,s)
+    cols.all += [col]
+    if s[-1] != "X":
+      (cols.y if s[-1] in "-+" else cols.x).append(col)
   return cols
 
-def DATA(file):
-  data = has(cols=[], rows=[])
-  for a in csv(file):
-    if not data.cols:
-      data.cols = COLS(a)
-    else:
-      a = [coerce(x) for x in a]
-      data.rows += [has(cells=a, cooked=a[:])]
-      for cols in [data.cols.x, data.cols.y]:
-        for col in cols:
-          add(col, a[col.at])
+def DATA(src, rows=[]):
+  data = bag(ako=DATA, cols=[], rows=[])
+  if type(src)==str:    [dataAdd(data,a) for a in csv(src)]
+  elif src.ako is DATA: dataAdd(data,src.cols.names)
+  [dataAdd(data,r) for r in rows]
   return data
 
-def add(col,x):
+def ROW(a):
+  return bag(ako=ROW, cells=a, cooked=a[:])
+#------------------------------------------------ --------- --------- ----------
+def dataAdd(data,a):
+  if not data.cols:
+    data.cols = COLS(a)
+  else:
+    data.rows += [ROW([colAdd(col,x) for col,x in zip(data.cols.all,a)])]
+
+def colAdd(col,x,inc=1):
   if x != "?":
-    if col.isNum:
-      col.lo = min(x, col.lo)
-      col.hi = max(x, col.hi)
+    col.n += inc
+    if col.ako is NUM:
+      col.lo  = min(x, col.lo)
+      col.hi  = max(x, col.hi)
+      d       = x - col.mu
+      col.mu += d/col.n
+      col.m2 += d * (x - col.mu)
+    else:
+      col.tally[x] = col.tally.get(x,0) + inc
   return x
 
+def norm(num,x):
+  return x if x=="?" else (x - num.lo)/(num.hi - num.lo + 1/inf)
+
+def syms(rows, x=lambda z:z):
+  s=SYM(); [colAdd(s,x(row)) for row in rows]; return s
+#------------------------------------------------ --------- --------- ----------
+def BIN(col):
+  return bag(ako=BIN, rows=[], at=col.at, txt=col.txt, lo=inf, hi=-inf, klasses=SYM())
+
+def binAdd(bin,row,x,y):
+  add(bin.klasses, y)
+  bin.rows += [row]
+  bin.xlo = min(x, bin.xlo)
+  bin.xhi = max(x, bin.xhi)
+
 def bins(data):
+  out = []
   for cols in [data.cols.x, data.cols.y]:
     for col in cols:
-      if col.isNum:
-        x  = lambda row: row.cells[col.at]
-        a  = sorted([row for row in data.rows if x(row) != "?"], key=x)
-        n  = len(a)
-        _bins(a, x, eps=the.cohen*stdev(a,x), tiny=n/the.bins)
-  return data
+      if col.ako is NUM:
+        x = lambda row: row.cells[col.at]
+        a = sorted([row for row in data.rows if x(row) != "?"], key=x)
+        n = len(a)
+        print(out, _bins(a,col,x,eps=the.cohen*stdev(a,x),tiny=n/the.bins))
+        out += _bins(a,col,x,eps=the.cohen*stdev(a,x),tiny=n/the.bins)
+  return out
 
-def _bins(rows,x,eps=.35,tiny=4):
-  nz,z,new, lo = 0,-1,True
-  for i,r in enumerate(rows):
+def _bins(rows, col, x, eps=.35, tiny=4):
+  out, new = [BIN(col)], True
+  for i,row in enumerate(rows):
     if new:
-      nz, z, lo, new = 0, z+1, x(r), False
-    nz += 1
-    r.cooked[col.at] = z
-    new = nz > tiny and len(rows)-i > tiny and x(r)-lo > eps and x(r) != x(rows[i+1])
+      new = False
+      out += [BIN(col)]
+    bin = out[-1]
+    binAdd(bin, row, row.y)
+    if len(bin.rows) > tiny and len(rows) - i > tiny:
+      if x(row) - x(bin.rows[0]) > eps:
+        new = x(row) != x(rows[i+1])
+  return out
 
 def better(data, row1, row2):
   s1, s2, cols, n = 0, 0, data.cols.y, len(data.cols.y)
   for col in cols:
     x    = lambda row: row.cells[col.at]
-    norm = lambda row: (x(col,row)-col.lo)/(col.hi - col.lo + 1/inf)
-    a, b = norm(col,row1), norm(col,row2)
-    s1 -= math.exp(col.w * (a - b) / n)
-    s2 -= math.exp(col.w * (b - a) / n)
+    a, b = norm(col,row1.cells[col.at]), norm(col,row2.cells[col.at])
+    s1  -= math.exp(col.w * (a - b) / n)
+    s2  -= math.exp(col.w * (b - a) / n)
   return s1 / n < s2 / n
 
-def betters(data, rows):
+def betters(data, rows=None):
+  rows = rows or data.rows
   def fun(r1, r2): return better(data, r1, r2)
   return sorted(rows or data.rows, key=cmp_to_key(fun))
 

@@ -7,14 +7,18 @@ inf  = sys.maxsize / 2
 ninf = -inf - 1
 
 def same(x)   : return x
-def coerce(x) : return x if x=="?" else ast.literal_eval(x)
-def showd(d)  : return "{"+(", ".join([f"{k}:{show(v)}" for k,v in d.items()]))+"}"
-def show(x)   :
-  if callable(x): return x.__name__
-  if isinstance(x,float): return round(x, ndigits=3)
+def showd(d)  : return "{"+(" ".join([f"{k}:{pretty(v)}" for k,v in d.items()]))+"}"
+def pretty(x):
+  if callable(x)        : return x.__name__+'()'
+  if isinstance(x,float): return f"{x:.2f}"
   return x
 
-class has(dict):
+def coerce(x):
+  if x=="?": return x
+  try:    return ast.literal_eval(x) 
+  except: return x
+
+class bag(dict):
   __getattr__ = dict.get
   __setattr__ = dict.__setitem__
   __delattr__ = dict.__delitem__
@@ -25,4 +29,4 @@ def csv(file):
     for line in fp:
       line = re.sub(r'([\n\t\r"\' ]|#.*)', '', line)
       if line:
-        yield [cell.strip() for cell in line.split(",")]
+        yield [coerce(cell.strip()) for cell in line.split(",")]
