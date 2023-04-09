@@ -159,5 +159,5 @@ def rules(bins,fun):
     now = fun(b,r)
     if now > best:
       best = now
-      print(BAG(size=i+1, score=f"{now:.3f}",support=len(a),
+      print(BAG(score=f"{now:.3f}",
                 best=b,rest=r,rule=showBins(some)))
