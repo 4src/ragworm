@@ -5,7 +5,7 @@ import random
 from copy import deepcopy
 from functools import cmp_to_key
 #------------------------------------------------ --------- --------- ----------
-the = BAG(cohen=.5, bins=7, min=.5, rest=3, file="../data/auto93.csv", seed=1234567891)
+the = BAG(cohen=.5, bins=7, k=1, m=2, min=.5, rest=3, file="../data/auto93.csv", seed=1234567891)
 #------------------------------------------------ --------- --------- ----------
 def SYM(c=0,s=" "):
    return BAG(ako=SYM, at=c, txt=s, n=0, tally={})
@@ -60,9 +60,10 @@ def mid(col):
   return col.mu if col.ako is NUM else max((n,x) for c,x in col.tally.items)[1]
 
 def div(col):
-  def fun(x): return p*math.log(p,2)
-  if col.ako is NUM: return (col.m2/(col.n - 1))**.5
-  return -sum((fun(n/col.n) for n in col.tally.values() if n>0))
+  if col.ako is NUM:
+    return (col.m2/(col.n - 1))**.5
+  else:
+    return -sum((n/col.n)*math.log(n/col.n,2) for n in col.tally.values() if n>0))
 
 def stats(data, cols=None, fun=mid):
   tmp = {col.txt: fun(col) for col in (cols or data.cols.y)}
@@ -89,15 +90,35 @@ def betters(data, rows=None):
   def fun(r1, r2): return better(data, r1, r2)
   rows= sorted(rows or data.rows, key=cmp_to_key(fun))
   n = int(len(rows))**the.min
-  best,rest = [],[]
+  best,rest = [], []
   for i,row in enumerate(rows):
-    row.y = i > len(rows) - n
-    (best if row.y else rest).append(row)
-  B,R = len(best), the.rest*len(best)
-  def fun(b,r):
-    b,r = b/(B+10**-30), r/(R+10**-30)
-    return b**2/(b+r)
-  return DATA(data, best + random.sample(rest, R)), fun
+    (best if i > len(rows) - n else rest).append(row)
+  rest = random.sample(rest, len(best)*the.rest)
+  return DATA(data,best), DATA(data,rest)
+
+def classify(datas, row):
+  n = sum(len(data.rows) for data in datas)
+  most,out = -inf,datas[0]
+  for data in datas:
+    prior = (len(data.rows) + the.k) / (n + the.k * len(datas))
+    tmp = math.log(prior)
+    for col in data.cols.x:
+      x = row.cell[col.at]
+      tmp += 0 if x == "?" else math.log(like(col,x,prior)) 
+    if tmp > most:
+      most, out = tmp, data
+  return out,math.e**mostlike
+
+def like(col, x, prior):
+  if col.ako is SYM:
+    return (col.tally.get(x,0) + the.m*prior) / (col.n + the.m)
+  else:
+    sd = div(col)
+    if x < (col.mu - 4*sd)  or  x > (col.mu + 4*sd): return 0
+    denom = (2 * math.pi * sd**2) ** .5
+    num = math.e ** (-(x - col.mu)**2 / (2 * sd**2 + 0.0001))
+    return num / (denom + 1E-64)
+
 #------------------------------------------------ --------- --------- ----------
 def BIN(col):
   return BAG(ako=BIN, _rows=[], at=col.at, txt=col.txt,

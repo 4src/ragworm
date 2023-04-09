@@ -23,7 +23,7 @@ def coerce(x):
   except: return x
 
 class bag(dict):
-  n=0
+  bags=0
   __getattr__ = dict.get
   __setattr__ = dict.__setitem__
   __delattr__ = dict.__delitem__
@@ -32,7 +32,7 @@ class bag(dict):
 
 def BAG(**d):
   tmp = bag(**d)
-  bag.n = tmp._id = bag.n + 1
+  bag.bags = tmp._id = bag.bags + 1
   return tmp
 
 def csv(file):
