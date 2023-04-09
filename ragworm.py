@@ -143,7 +143,7 @@ def _bins(rows,col,x, fun, eps=.35, tiny=4):
 #------------------------------------------------ --------- --------- ----------
 def rules(bins,fun):
   best = 0
-  for i in range(4): #len(bins)):
+  for i in range(4): 
     some = bins[:i+1]
     _and = set.intersection
     _or  = set.union
