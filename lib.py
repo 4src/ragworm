@@ -73,26 +73,18 @@ def csv(file):
         yield [coerce(cell.strip()) for cell in line.split(",")]
 
 def runs(the,funs):
-  return sum((run(fun,the) for fun in funs if todo(fun,the)))
+  return sum((run(fun,the) for fun in funs if re.match("^"+the.go, fun.__name__)))
 
-def todo(f,the):
-  return f.__name__ == the.go or the.go=="all"
-
-def yell(s,c):
-  print(colored(s,"light_"+c,attrs=["bold"]),end="")
-
-def run(fun,the):
-  fail, cache = False, deepcopy(the)
+def run(fun, settings):
+  yell = lambda s,c: print(colored(s,"light_"+c,attrs=["bold"]),end="")
+  fail, cache = False, {k:settings[k] for k in settings}
   try:
     yell((fun.__name__ or "fun")+"\t","yellow")
-    print((fun.__doc__ or "")+ " ",end="")
-    seed(the.seed)
+    print(fun.__doc__ or ""," ",end="")
+    seed(settings.seed)
     fail = fun() == False
   except:
     print(traceback.format_exc())
-  if fail: yell("FAIL\n","red")
-  else:    yell("PASS\n","green")
-  for k,v in cache.items(): the[k] = v
+  yell("FAIL\n","red") if fail else yell("PASS\n","green")
+  for k in cache: settings[k] = cache[k]
   return fail
-
-
