@@ -5,24 +5,31 @@ import sys
 import random
 
 seed = random.seed
+r    = random.random
 
 inf  = sys.maxsize / 2
 ninf = -inf - 1
 
-def same(x) : return x
 def showd(d): return "{"+(" ".join([f":{k} {show(v)}"
                          for k,v in d.items() if k[0]!="_"]))+"}"
+
 def show(x):
   if callable(x)         : return x.__name__+'()'
   if isinstance(x,float) : return f"{x:.2f}"
   return x
 
 def per(a, p=.5, key=lambda x:x):
-  p=int((len(a) * p); p=math.max(0,math.min(len(a)-1,p)); return key(a[p])
+  p=int(len(a)*p); p=math.max(0,math.min(len(a)-1,p)); return key(a[p])
+
+def nedian(a, key=lambda x:x):
+  return key(per(a,.5))
+
+def stdev(a, key=lambda x:x):
+  return (key(per(o,.9)) - key(per(a,.1)))/2.56
 
 def ent(d):
-  N = sum(( d[k] for k in d))
-  return -sum((n/N)*math.log(n/N,2) for n in col.has.values() if n>0))
+  n = sum(( d[k] for k in d))
+  return -sum((d[k]/n*math.log(d[k]/n,2) for k in d if d[k]>0))
 
 
 def coerce(x):
