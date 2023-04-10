@@ -4,6 +4,10 @@ import ast
 import sys
 import math
 import random
+import traceback
+from copy import deepcopy
+from termcolor import colored
+
 
 seed = random.seed
 r    = random.random
@@ -67,3 +71,28 @@ def csv(file):
       line = re.sub(r'([\n\t\r"\' ]|#.*)', '', line)
       if line:
         yield [coerce(cell.strip()) for cell in line.split(",")]
+
+def runs(the,funs):
+  return sum((run(fun,the) for fun in funs if todo(fun,the)))
+
+def todo(f,the):
+  return f.__name__ == the.go or the.go=="all"
+
+def yell(s,c):
+  print(colored(s,"light_"+c,attrs=["bold"]),end="")
+
+def run(fun,the):
+  fail, cache = False, deepcopy(the)
+  try:
+    yell((fun.__name__ or "fun")+"\t","yellow")
+    print((fun.__doc__ or "")+ " ",end="")
+    seed(the.seed)
+    fail = fun() == False
+  except:
+    print(traceback.format_exc())
+  if fail: yell("FAIL\n","red")
+  else:    yell("PASS\n","green")
+  for k,v in cache.items(): the[k] = v
+  return fail
+
+

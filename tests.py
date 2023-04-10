@@ -1,16 +1,12 @@
 # vim: set ts=2:sw=2:et:
 from ragworm import *
-import traceback
-from copy import deepcopy
-from termcolor import colored
-
 funs=[]
 def go(fun): global funs; funs += [fun]; return fun
 
 @go
 def thed(): 
-  "print options"
-  print(the)
+  "show options"
+  print(str(the)[:30],"... ",end="")
 
 @go
 def csvd():
@@ -27,16 +23,18 @@ def lohid():
   return 0==num.lo and 19==num.hi
 
 @go
-def reservoir():
+def cache():
   "keep some nums"
   the.nums=16
   num = NUM() 
   [add(num,x) for x in range(10**4)]
-  print(ok(num).has)
+  has = ok(num).has
+  return 16==len(has) and  has[0] <= has[4] <= has[8] <= has[12] <= has[-1]
 
 @go
 def numd():
-  num = NUM()
+  "collect stats"
+  num = NUM() 
   [add(num,r()) for x in range(10**4)]
   return the.nums==256 and .28 < div(num) < .32 and .46 < mid(num) < .54
 
@@ -54,26 +52,5 @@ def statd():
   s0  = stats(d0); a0 = s0.__dict__['Acc+']
   return  15.5 < a0 < 15.6
 
-#------------------------------------------------------
-def yell(s,c): 
-  print(colored(s,"light_"+c,attrs=["bold"]),end="")
-
-def isWanted(f)
-  return f.__name__ == the.go or the.go=="all":
-
-def run(f):
-  global the
-  name,doc=f.__name__ or "fun", f.__doc__ or "do it"
-  seed(the.seed)
-  yell(name+" ","yellow")
-  cache = deepcopy(the)
-  try:
-    assert f() != False
-    yell("PASS\n","green")
-  except:
-    print(traceback.format_exc())
-    yell("FAIL can't "+doc+"\n","red")
-  for k,v in cache.items(): the[k] = v
-
 cli(the)
-[run(fun) for fun in funs if isWanted(fun)]
+sys.exit(runs(the,funs))
