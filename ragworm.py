@@ -5,17 +5,19 @@ import random
 from copy import deepcopy
 from functools import cmp_to_key
 #------------------------------------------------ --------- --------- ----------
-the = BAG(cohen=.5, bins=7, k=1, m=2, min=.5, rest=3, file="../data/auto93.csv", seed=1234567891)
+the = BAG(cohen=.5, nums=256, bins=7, k=1, m=2, 
+          min=.5, rest=3, file="../data/auto93.csv", seed=1234567891)
 #------------------------------------------------ --------- --------- ----------
 def SYM(c=0,s=" "):
-   return BAG(ako=SYM, at=c, txt=s, n=0, tally={})
+   return BAG(ako=SYM, at=c, txt=s, n=0, has={},mode=None,most=0)
 
 def NUM(c=0,s=" "):
-  return BAG(ako=NUM, at=c, txt=s, n=0, mu=0, m2=0,
+  return BAG(ako=NUM, at=c, txt=s, n=0, has=[], ok=False,
               lo=inf, hi=-inf, w = -1 if s[-1]=="-" else 1)
 
 def COLS(a):
-  cols = BAG(ako=COLS, names=a, x=[], y=[], all=[], klass=None)
+  cols = BAG(ako=COLS, names=a, named={}, x=[], y=[], all=[], klass=None)
+  cols.named = {col.txt:col for col in cols}
   for c,s in enumerate(a):
     col = (NUM if s[0].isupper() else SYM)(c,s)
     cols.all += [col]
@@ -47,23 +49,27 @@ def colAdd(col,x,inc=1):
   if x != "?":
     col.n += inc
     if col.ako is NUM:
-      col.lo  = min(x, col.lo)
-      col.hi  = max(x, col.hi)
-      d       = x - col.mu
-      col.mu += d/col.n
-      col.m2 += d * (x - col.mu)
+      col.lo = min(x, col.lo)
+      col.hi = max(x, col.hi)
+      if len(col.has) < the.nums: col.ok=False; col.has += [x]
+      elif r() < the.max/col.n  : col.ok=False; col.has[int(col.has)*r())] = x
     else:
-      col.tally[x] = col.tally.get(x,0) + inc
+      tmp = col.has[x] = col.has.get(x,0) + inc
+      if tmp > col.most:  col.most,col.mode = tmp,x
   return x
 
+def get(col):
+  if col.isa is NUM and not col.ok: col.has=sorted(col.has); col.ok=True
+  return col.has
+
 def mid(col):
-  return col.mu if col.ako is NUM else max((n,x) for c,x in col.tally.items)[1]
+  return col.mode if col.ako is SYM else per(get(col),.5)
 
 def div(col):
   if col.ako is NUM:
-    return (col.m2/(col.n - 1))**.5
+    return (per(get(col), .9) - per(get(col), .1)) / 2.56
   else:
-    return -sum((n/col.n)*math.log(n/col.n,2) for n in col.tally.values() if n>0))
+    return -sum((n/col.n)*math.log(n/col.n,2) for n in col.has.values() if n>0))
 
 def stats(data, cols=None, fun=mid):
   tmp = {col.txt: fun(col) for col in (cols or data.cols.y)}
@@ -73,60 +79,86 @@ def stats(data, cols=None, fun=mid):
 def norm(num,x):
   return x if x=="?" else (x - num.lo)/(num.hi - num.lo + 1/inf)
 
-def syms(rows, x=lambda z:z):
-  s=SYM(); [colAdd(s,x(row)) for row in rows]; return s
 #------------------------------------------------ --------- --------- ----------
 def better(data, row1, row2):
   s1, s2, cols, n = 0, 0, data.cols.y, len(data.cols.y)
   for col in cols:
-    y    = lambda row: row.cells[col.at]
-    a, b = norm(col,y(row1)), norm(col,y(row2))
+    a, b = norm(col,row1.cells[col.at]), norm(col,row2.cells[col.at])
     s1  -= math.exp(col.w * (a - b) / n)
     s2  -= math.exp(col.w * (b - a) / n)
   return s1 / n < s2 / n
 
 def betters(data, rows=None):
-  rows = rows or data.rows
-  def fun(r1, r2): return better(data, r1, r2)
-  rows= sorted(rows or data.rows, key=cmp_to_key(fun))
-  n = int(len(rows))**the.min
-  best,rest = [], []
+  rows = sorted(rows or data.rows,
+               key = cmp_to_key(lambda r1,r2:beter(data,r1,r2)))
+  cut = len(rows) - int(len(rows))**the.min
+  best,rest = [],[]
   for i,row in enumerate(rows):
-    (best if i > len(rows) - n else rest).append(row)
-  rest = random.sample(rest, len(best)*the.rest)
-  return DATA(data,best), DATA(data,rest)
+    row.y = i > cut
+    (best if i > cut else rest).append(row)
+  return best, random.sample(rest, len(best)*the.rest)
+
+def colv(data,row):
+  if type(row) is dict:
+    for k in row:
+      yield data.cols.named[k], row[k]
+  else:
+    for col in data.cols.x:
+      v = row.cells[col.at]
+      if v != "?" : yield col, [v]
 
 def classify(datas, row):
-  n = sum(len(data.rows) for data in datas)
-  most,out = -inf,datas[0]
-  for data in datas:
-    prior = (len(data.rows) + the.k) / (n + the.k * len(datas))
-    tmp = math.log(prior)
-    for col in data.cols.x:
-      x = row.cell[col.at]
-      tmp += 0 if x == "?" else math.log(like(col,x,prior)) 
+  most, out, n = -inf, datas[0], sum(len(data.rows) for data in datas)
+  for klass,,data in datas.items():
+    prior = (len(data.rows) + the.k) / (n + the.k*len(datas))
+    tmp   = math.log(prior)
+    for col,vs in colv(data,row):
+      f    = sum((col.has.get((klass, col.at, v),0) for v in vs))
+      tmp += math.log((f + the.m*prior) / (col.n + the.m))
     if tmp > most:
       most, out = tmp, data
-  return out,math.e**mostlike
-
-def like(col, x, prior):
-  if col.ako is SYM:
-    return (col.tally.get(x,0) + the.m*prior) / (col.n + the.m)
-  else:
-    sd = div(col)
-    if x < (col.mu - 4*sd)  or  x > (col.mu + 4*sd): return 0
-    denom = (2 * math.pi * sd**2) ** .5
-    num = math.e ** (-(x - col.mu)**2 / (2 * sd**2 + 0.0001))
-    return num / (denom + 1E-64)
-
+  return klass,out,math.e**mostlike
 #------------------------------------------------ --------- --------- ----------
+def discretize(col,x)
+  if x=="?" or col.ako == SYM: return x
+  tmp = (col.hi - col.lo)/(the.bins - 1)
+  return col.hi == col.lo and 1 or int(x/tmp + .5)*tmp
+
+def merged(d0,d1)
+def bins(best,rest):
+  for col in best.cols.x:
+    x = lambda row: row.cells[col.at]
+    if col.ako is NUM:
+      rows  = sorted([row for row in best+rest if x(row) != "?"])
+      eps   = (f(per(a,.9)) - f(per(a,.1)))/2.56 * the.cohen
+      small = int(len(a) / the.bins)
+      i0,x0,label = 0,a[0],0
+      has0,has    = None,{}
+      for i,row in enumerate(rows):
+        row.cooked[col].at = label
+        has[row.y] = has.get(row.y,0) + 1
+        if new:
+          new,i0 x0,label = False,i,f(row),label+1
+        new = x(row) - x0 > eps and i-i0 > small and len(rows) - small > i
+
+def tally(best,rest):
+  out={}
+  for col in best.cols.x:
+    for rows in [best.row, rest.rows]:
+      for row in rows:
+        x = row.cells[col.at]
+        if x != "?":
+          k = (row.y, col.at, discretize(col,x))
+          out[k] = out.get(k,0) + 1
+  return out
+
 def BIN(col):
   return BAG(ako=BIN, _rows=[], at=col.at, txt=col.txt,
              score=0, x=BAG(lo=inf, hi=-inf), y=SYM())
 
 def binAdd(bin, row, x, y, fun=lambda b,r: b):
   colAdd(bin.y, y)
-  bin.score  = fun(bin.y.tally.get(True,10**-30), bin.y.tally.get(False,10**-30))
+  bin.score  = fun(bin.y.has.get(True,10**-30), bin.y.has.get(False,10**-30))
   bin._rows += [row]
   bin.x.lo   = min(x, bin.x.lo)
   bin.x.hi   = max(x, bin.x.hi)

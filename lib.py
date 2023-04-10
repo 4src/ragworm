@@ -17,23 +17,32 @@ def show(x):
   if isinstance(x,float) : return f"{x:.2f}"
   return x
 
+def per(a, p=.5, key=lambda x:x):
+  p=int((len(a) * p); p=math.max(0,math.min(len(a)-1,p)); return key(a[p])
+
+def ent(d):
+  N = sum(( d[k] for k in d))
+  return -sum((n/N)*math.log(n/N,2) for n in col.has.values() if n>0))
+
+
 def coerce(x):
   if x=="?": return x
   try: return ast.literal_eval(x)
   except: return x
 
-class bag(dict):
-  bags=0
+class BAG(dict):
   __getattr__ = dict.get
   __setattr__ = dict.__setitem__
   __delattr__ = dict.__delitem__
   __repr__    = showd
-  def __hash__(self) : return self._id
 
-def BAG(**d):
-  tmp = bag(**d)
-  bag.bags = tmp._id = bag.bags + 1
-  return tmp
+#   bags=0
+#   def __hash__(self) : return self._id
+#
+# def BAG(**d):
+#   tmp = bag(**d)
+#   bag.bags = tmp._id = bag.bags + 1
+#   return tmp
 
 def csv(file):
   with open(file) as fp:
