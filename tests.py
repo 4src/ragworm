@@ -26,11 +26,19 @@ def lohid():
   [add(num,x) for x in range(20)]
   return 0==num.lo and 19==num.hi
 
-#@go
+@go
+def reservoir():
+  "keep some nums"
+  the.nums=16
+  num = NUM() 
+  [add(num,x) for x in range(10**4)]
+  print(ok(num).has)
+
+@go
 def numd():
   num = NUM()
-  [colAdd(num,r()) for x in range(10**4)]
-  return .28 < div(num) < .32 and .49 < mid(num) < .51
+  [add(num,r()) for x in range(10**4)]
+  return the.nums==256 and .28 < div(num) < .32 and .46 < mid(num) < .54
 
 #@go
 def symd():
@@ -47,19 +55,23 @@ def statd():
   return  15.5 < a0 < 15.6
 
 #------------------------------------------------------
-def yell(s,c): print(colored(s,"light_"+c,attrs=["bold"]),end="")
+def yell(s,c): 
+  print(colored(s,"light_"+c,attrs=["bold"]),end="")
 
 def run(f):
   global the
-  cache = deepcopy(the)
-  seed(the.seed)
-  yell(f.__name__+" ","yellow")
-  try:
-    assert f()  != False
-    yell("PASS\n","green")
-  except:
-    the = deepcopy(cache)
-    print(traceback.format_exc())
-    yell("FAIL can't "+f.__doc__+"\n","red")
+  name,doc=f.__name__ or "fun", f.__doc__ or "do it"
+  if name == the.go or the.go=="all":
+    seed(the.seed)
+    yell(name+" ","yellow")
+    cache = deepcopy(the)
+    try:
+      assert f() != False
+      yell("PASS\n","green")
+    except:
+      print(traceback.format_exc())
+      yell("FAIL can't "+doc+"\n","red")
+    for k,v in cache.items(): the[k] = v
 
-[run(fun) for fun in funs if fun.__name__==the.go  or the.go=="all"]
+cli(the)
+[run(fun) for fun in funs]

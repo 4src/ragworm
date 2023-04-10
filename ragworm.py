@@ -15,15 +15,15 @@ def NUM(c=0,s=" "):
   return BAG(ako=NUM, at=c, txt=s, n=0, has=[], ok=False,
               lo=inf, hi=-inf, w = -1 if s[-1]=="-" else 1)
 
-def COLS(a):
-  cols = BAG(ako=COLS, names=a, named={}, x=[], y=[], all=[], klass=None)
-  for c,s in enumerate(a):
+def COLS(words):
+  cols = BAG(ako=COLS, names=words, named={}, x=[], y=[], all=[], klass=None)
+  for c,s in enumerate(words):
     col = (NUM if s[0].isupper() else SYM)(c,s)
+    cols.named[s] = col
     cols.all += [col]
     if s[-1] != "X":
       if s[-1]=="!": klass=col
       (cols.y if s[-1] in "-+" else cols.x).append(col)
-  cols.named = {col.txt:col for col in cols.all}
   return cols
 
 def DATA(src, rows=[]):
@@ -46,32 +46,33 @@ def adds(data,row):
     data.cols = COLS(row.cells)
 
 def add(col,x,inc=1):
-  if x != "?":
-    col.n += inc
-    if col.ako is SYM::
-      tmp = col.has[x] = col.has.get(x,0) + inc
-      if tmp > col.most:
-        col.most,col.mode = tmp,x
-    else:
-      col.lo = min(x, col.lo)
-      col.hi = max(x, col.hi)
-      if len(col.has) < the.nums:
-        col.ok=False
-        col.has += [x]
-      elif r() < the.nums/col.n:
-        col.ok=False
-        col.has[int(len(col.has)*r())] = x
-  return x
+  if x == "?": return x
+  col.n += inc
+  if col.ako is SYM:
+    tmp = col.has[x] = col.has.get(x,0) + inc
+    if tmp > col.most:
+      col.most,col.mode = tmp,x
+  else:
+    col.lo = min(x, col.lo)
+    col.hi = max(x, col.hi)
+    if len(col.has) < the.nums:
+      col.ok=False
+      col.has += [x]
+    elif r() < the.nums/col.n:
+      col.ok=False
+      col.has[int(len(col.has)*r())] = x
 
-def holds(col):
-  if col.isa is NUM and not col.ok: col.has=sorted(col.has); col.ok=True
-  return col.has
+def ok(col):
+  if col.ako is NUM and not col.ok: 
+    col.has=sorted(col.has)
+    col.ok=True
+  return col
 
 def mid(col):
-  return col.mode if col.ako is SYM else median(holds(col))
+  return col.mode if col.ako is SYM else median(ok(col).has)
 
 def div(col):
-  return ent(col.has) if col.ako is SYM else stdev(holds(col))
+  return ent(col.has) if col.ako is SYM else stdev(ok(col).has)
 
 def stats(data, cols=None, fun=mid):
   tmp = {col.txt: fun(col) for col in (cols or data.cols.y)}
