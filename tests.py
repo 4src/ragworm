@@ -58,20 +58,22 @@ def statd():
 def yell(s,c): 
   print(colored(s,"light_"+c,attrs=["bold"]),end="")
 
+def isWanted(f)
+  return f.__name__ == the.go or the.go=="all":
+
 def run(f):
   global the
   name,doc=f.__name__ or "fun", f.__doc__ or "do it"
-  if name == the.go or the.go=="all":
-    seed(the.seed)
-    yell(name+" ","yellow")
-    cache = deepcopy(the)
-    try:
-      assert f() != False
-      yell("PASS\n","green")
-    except:
-      print(traceback.format_exc())
-      yell("FAIL can't "+doc+"\n","red")
-    for k,v in cache.items(): the[k] = v
+  seed(the.seed)
+  yell(name+" ","yellow")
+  cache = deepcopy(the)
+  try:
+    assert f() != False
+    yell("PASS\n","green")
+  except:
+    print(traceback.format_exc())
+    yell("FAIL can't "+doc+"\n","red")
+  for k,v in cache.items(): the[k] = v
 
 cli(the)
-[run(fun) for fun in funs]
+[run(fun) for fun in funs if isWanted(fun)]
