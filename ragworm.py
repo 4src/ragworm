@@ -10,10 +10,10 @@ the = BAG(cohen=.5, nums=256, bins=7, k=1, m=2, go=".",
           min=.5, rest=3, file="../data/auto93.csv", seed=1234567891)
 #------------------------------------------------ --------- --------- ----------
 def SYM(c=0,s=" "):
-   return BAG(ako=SYM, at=c, txt=s, n=0, has={},mode=None,most=0)
+   return BAG(ako=SYM, at=c, txt=s, n=0, _has={},mode=None,most=0)
 
 def NUM(c=0,s=" "):
-  return BAG(ako=NUM, at=c, txt=s, n=0, has=[], ok=False,
+  return BAG(ako=NUM, at=c, txt=s, n=0, _has=[], ok=False,
               lo=inf, hi=-inf, w = -1 if s[-1]=="-" else 1)
 
 def COLS(words):
@@ -50,30 +50,30 @@ def add(col,x,inc=1):
   if x == "?": return x
   col.n += inc
   if col.ako is SYM:
-    tmp = col.has[x] = col.has.get(x,0) + inc
+    tmp = col._has[x] = col._has.get(x,0) + inc
     if tmp > col.most:
       col.most,col.mode = tmp,x
   else:
     col.lo = min(x, col.lo)
     col.hi = max(x, col.hi)
-    if len(col.has) < the.nums:
+    if len(col._has) < the.nums:
       col.ok=False
-      col.has += [x]
+      col._has += [x]
     elif r() < the.nums/col.n:
       col.ok=False
-      col.has[int(len(col.has)*r())] = x
+      col._has[int(len(col._has)*r())] = x
 
 def ok(col):
   if col.ako is NUM and not col.ok: 
-    col.has=sorted(col.has)
+    col._has=sorted(col._has)
     col.ok=True
   return col
 
 def mid(col):
-  return col.mode if col.ako is SYM else median(ok(col).has)
+  return col.mode if col.ako is SYM else median(ok(col)._has)
 
 def div(col):
-  return ent(col.has) if col.ako is SYM else stdev(ok(col).has)
+  return ent(col._has) if col.ako is SYM else stdev(ok(col)._has)
 
 def stats(data, cols=None, fun=mid):
   tmp = {col.txt: fun(col) for col in (cols or data.cols.y)}
@@ -99,7 +99,7 @@ def betters(data, rows=None):
   for i,row in enumerate(rows):
     row.y = i > cut
     (best if i > cut else rest).append(row)
-  return best, random.sample(rest, len(best)*the.rest)
+  return DATA(data,best), DATA(data,random.sample(rest, len(best)*the.rest))
 
 # def colv(data,row):
 #   if type(row) is dict:
@@ -127,23 +127,23 @@ def betters(data, rows=None):
 #   tmp = (col.hi - col.lo)/(the.bins - 1)
 #   return col.hi == col.lo and 1 or int(x/tmp + .5)*tmp
 #
-# def merged(d0,d1)
-# def bins(best,rest):
-#   for col in best.cols.x:
-#     x = lambda row: row.cells[col.at]
-#     if col.ako is NUM:
-#       rows  = sorted([row for row in best+rest if x(row) != "?"])
-#       eps   = (f(per(a,.9)) - f(per(a,.1)))/2.56 * the.cohen
-#       small = int(len(a) / the.bins)
-#       i0,x0,label = 0,a[0],0
-#       has0,has    = None,{}
-#       for i,row in enumerate(rows):
-#         row.cooked[col].at = label
-#         has[row.y] = has.get(row.y,0) + 1
-#         if new:
-#           new,i0 x0,label = False,i,f(row),label+1
-#         new = x(row) - x0 > eps and i-i0 > small and len(rows) - small > i
-#
+def bins(best,rest):
+  for col in best.cols.x:
+    if col.ako is NUM:
+      x = lambda row: row.cells[col.at]
+      rows  = sorted([row for row in best.rows+rest.rows if x(row) != "?"])
+      eps   =  stdev(rows, x) * the.cohen
+      small = int(len(a) / the.bins)
+      ys0,ys1,ys12,xs = SYM(),SYM(),SYM(),NUM()
+      for i,row in enumerate(rows):
+        row.cooked[col].at = label
+        add(xs,x(row))
+        add(ys1, row.y)
+        add(ys12,row)
+        new = x(row) - x0 > eps and xs.n > small and len(rows) - small > i and
+        ys0=ys1
+        ys1=SYM()
+
 # def tally(best,rest):
 #   out={}
 #   for col in best.cols.x:
