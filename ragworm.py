@@ -126,23 +126,36 @@ def betters(data, rows=None):
 #   if x=="?" or col.ako == SYM: return x
 #   tmp = (col.hi - col.lo)/(the.bins - 1)
 #   return col.hi == col.lo and 1 or int(x/tmp + .5)*tmp
-#
+
+def merged(col1, col2):
+  if col1 and col2:
+    col12 = deepcopy(col1)
+    for x,n in col2._has.items(): add(col12,x,n)
+    if div(col12) <= (col1.n*div(col1) + col2.n*div(col2))/col12.n:
+      return col12
+
 def bins(best,rest):
   for col in best.cols.x:
     if col.ako is NUM:
-      x = lambda row: row.cells[col.at]
+      x     = lambda row: row.cells[col.at]
       rows  = sorted([row for row in best.rows+rest.rows if x(row) != "?"])
       eps   =  stdev(rows, x) * the.cohen
-      small = int(len(a) / the.bins)
-      ys0,ys1,ys12,xs = SYM(),SYM(),SYM(),NUM()
+      small = int(len(rows) / the.bins)
+      ys0,ys1,xs = SYM(),SYM(),NUM()
+      cooked = 0
+      cuts, icuts=[],[]
       for i,row in enumerate(rows):
-        row.cooked[col].at = label
-        add(xs,x(row))
+        row.cooked[col].at = cooked
+        add(xs, x(row))
         add(ys1, row.y)
-        add(ys12,row)
-        new = x(row) - x0 > eps and xs.n > small and len(rows) - small > i and
-        ys0=ys1
-        ys1=SYM()
+        if  xs.hi - xs.lo  > eps and xs.n > small and i < len(rows) - small:
+          if ys12 = merged(ys0,ys1):
+            y0 = ys12
+          cooked += 1
+          cuts   += x(row)
+          icuts  += [i]
+          ys0     = ys1
+          xs      = NUM()
 
 # def tally(best,rest):
 #   out={}
