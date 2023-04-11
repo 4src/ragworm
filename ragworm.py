@@ -4,8 +4,9 @@ import math
 import random
 from copy import deepcopy
 from functools import cmp_to_key
+
 #------------------------------------------------ --------- --------- ----------
-the = BAG(cohen=.5, nums=256, bins=7, k=1, m=2, go="all",
+the = BAG(cohen=.5, nums=256, bins=7, k=1, m=2, go=".",
           min=.5, rest=3, file="../data/auto93.csv", seed=1234567891)
 #------------------------------------------------ --------- --------- ----------
 def SYM(c=0,s=" "):

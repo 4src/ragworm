@@ -4,21 +4,19 @@ funs=[]
 def go(fun): global funs; funs += [fun]; return fun
 
 @go
-def thed(): 
+def thed():
   "show options"
   print(str(the)[:30],"... ",end="")
 
 @go
 def csvd():
   "read csv"
-  n=0
-  for a in csv(the.file): n += len(a)
-  return n==3192
+  return 3192==sum((len(a) for a in csv(the.file)))
 
 @go
 def lohid():
   "find num ranges"
-  num = NUM() 
+  num = NUM()
   [add(num,x) for x in range(20)]
   return 0==num.lo and 19==num.hi
 
@@ -26,7 +24,7 @@ def lohid():
 def cache():
   "keep some nums"
   the.nums=16
-  num = NUM() 
+  num = NUM()
   [add(num,x) for x in range(10**4)]
   has = ok(num).has
   return 16==len(has) and  has[0] <= has[4] <= has[8] <= has[12] <= has[-1]
@@ -34,7 +32,7 @@ def cache():
 @go
 def numd():
   "collect stats"
-  num = NUM() 
+  num = NUM()
   [add(num,r()) for x in range(10**4)]
   return the.nums==256 and .28 < div(num) < .32 and .46 < mid(num) < .54
 

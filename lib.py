@@ -6,14 +6,20 @@ import math
 import random
 import traceback
 from copy import deepcopy
+from pyfiglet import Figlet
 from termcolor import colored
-
 
 seed = random.seed
 r    = random.random
 
 inf  = sys.maxsize / 2
 ninf = -inf - 1
+#------------------------------------------------ --------- --------- ----------
+def figfont(txt,font):
+  return Figlet(font=font).renderText(txt)
+
+def yell(s,c):
+  print(colored(s,"light_"+c,attrs=["bold"]),end="")
 
 def showd(d): return "{"+(" ".join([f":{k} {show(v)}"
                          for k,v in d.items() if k[0]!="_"]))+"}"
@@ -22,7 +28,13 @@ def show(x):
   if callable(x)         : return x.__name__+'()'
   if isinstance(x,float) : return f"{x:.2f}"
   return x
-
+#------------------------------------------------ --------- --------- ----------
+class BAG(dict):
+  __getattr__ = dict.get
+  __setattr__ = dict.__setitem__
+  __delattr__ = dict.__delitem__
+  __repr__    = showd
+#------------------------------------------------ --------- --------- ----------
 def per(a, p=.5, key=lambda x:x):
   p=int(len(a)*p); p=max(0,min(len(a)-1,p)); return key(a[p])
 
@@ -35,6 +47,13 @@ def stdev(a, key=lambda x:x):
 def ent(d):
   n = sum(( d[k] for k in d))
   return -sum((d[k]/n*math.log(d[k]/n,2) for k in d if d[k]>0))
+#------------------------------------------------ --------- --------- ----------
+def csv(file):
+  with open(file) as fp:
+    for line in fp:
+      line = re.sub(r'([\n\t\r"\' ]|#.*)', '', line)
+      if line:
+        yield [coerce(cell.strip()) for cell in line.split(",")]
 
 def coerce(x):
   if x=="?": return x
@@ -49,34 +68,14 @@ def cli(d):
          v="False" if v=="True" else ("True" if v=="False" else sys.argv[i+1])
       d[k] = coerce(v)
   return d
-
-
-class BAG(dict):
-  __getattr__ = dict.get
-  __setattr__ = dict.__setitem__
-  __delattr__ = dict.__delitem__
-  __repr__    = showd
-
-#   bags=0
-#   def __hash__(self) : return self._id
-#
-# def BAG(**d):
-#   tmp = bag(**d)
-#   bag.bags = tmp._id = bag.bags + 1
-#   return tmp
-
-def csv(file):
-  with open(file) as fp:
-    for line in fp:
-      line = re.sub(r'([\n\t\r"\' ]|#.*)', '', line)
-      if line:
-        yield [coerce(cell.strip()) for cell in line.split(",")]
-
+#------------------------------------------------ --------- --------- ----------
 def runs(the,funs):
-  return sum((run(fun,the) for fun in funs if re.match("^"+the.go, fun.__name__)))
+  print(figfont("tests","ogre"),end="")
+  n = sum((run(fun,the) for fun in funs if re.match("^"+the.go, fun.__name__)))
+  yell(f"{n} FAILURE(S)\n","red") if n>0 else yell("ALL PASSED\n","green")
+  return n
 
 def run(fun, settings):
-  yell = lambda s,c: print(colored(s,"light_"+c,attrs=["bold"]),end="")
   fail, cache = False, {k:settings[k] for k in settings}
   try:
     yell((fun.__name__ or "fun")+"\t","yellow")
@@ -84,7 +83,8 @@ def run(fun, settings):
     seed(settings.seed)
     fail = fun() == False
   except:
+    fail = True
     print(traceback.format_exc())
-  yell("FAIL\n","red") if fail else yell("PASS\n","green")
+  yell("✘\n","red") if fail else yell("✔\n","green")
   for k in cache: settings[k] = cache[k]
   return fail
