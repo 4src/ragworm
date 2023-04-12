@@ -145,7 +145,7 @@ def bins1(col,best,rest):
     z.hi    = x(row)
     z.rows += [row]
     add(z.ys, row.y)
-    if z.hi - z.lo  > eps and z.ys.n > small and i < len(rows) - small:
+    if z.hi - z.lo > eps and z.ys.n > small and i < len(rows) - small:
       bags += [BAG(rows=[], lo=x(row), hi=x(row), ys=SYM())]
   return bags
 
@@ -156,11 +156,11 @@ def merges(b4):
     if i < len(b4) - 1:
       two = b4[i+1]
       if ys := merged(one.ys, two.ys):
-        one = BAG(rows=one.rows + one.rows, lo=one.lo, hi=two.hi, ys=ys)
+        one = BAG(rows=one.rows + two.rows, lo=one.lo, hi=two.hi, ys=ys)
         i += 1
     now += [one]
     i += 1
-  return fillInTheGaps(b4) if len(now) == len(b4) else merges(now)
+  return fillInTheGaps(b4) if len(b4) == len(now) else merges(now)
 
 def merged(col1, col2):
   col12 = deepcopy(col1)
