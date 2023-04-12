@@ -48,7 +48,7 @@ def symd():
 def statd():
   "collect stats from data"
   data0 = DATA("../data/auto93.csv")
-  data1,data2 = betters(d0)
+  data1,data2 = betters(data0)
   s0 = stats(data0)
   s1 = stats(data1)
   s2 = stats(data2)

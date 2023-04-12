@@ -19,4 +19,4 @@ doc: ## generate documentation
 		   --logo 'https://hetmanrecovery.com/pic/out/hetman_internet_spy_256x256.png' *.py
 
 tests: ## run test suite
-	sh p tests.py -g .
+	python3 -B tests.py -g .

@@ -73,6 +73,7 @@ def runs(the,funs):
   print(figfont("tests","ogre"),end="")
   n = sum((run(fun,the) for fun in funs if re.match("^"+the.go, fun.__name__)))
   yell(f"{n} FAILURE(S)\n","red") if n>0 else yell("ALL PASSED\n","green")
+  print(n)
   return n
 
 def run(fun, settings):
