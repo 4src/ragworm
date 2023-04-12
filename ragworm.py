@@ -128,20 +128,18 @@ def betters(data, rows=None):
 #   return col.hi == col.lo and 1 or int(x/tmp + .5)*tmp
 
 def freqs(best, rest, bins=lambda *l:True):
-  out={}
-  def inc(k): out[k] = out.get(k,0) + 1
+  out = {}
+  def remember(k): bins(k); out[k] = out.get(k,0) + 1
   for col in best.cols.x:
     x = lambda row: row.cells[col.at]
     if col.ako is NUM:
       for bin in discretize(x,col, best.rows + rest.rows):
-        bins(col.at, bin.lo, bin.hi)
         for row in bin.rows:
-          inc((col.at, bin.lo, bin.hi, row.y))
+          remember((col.at, bin.lo, bin.hi, row.y))
     else:
       for row in best.rows + rest.rows:
         if x(row) != "?":
-          bins(col.at, x(row), x(row))
-          inc((col.at, x(row), x(row), row.y))
+          remember((col.at, x(row), x(row), row.y))
   return out
 
 def discretize(x,rows):
