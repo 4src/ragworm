@@ -127,58 +127,58 @@ def betters(data, rows=None):
 #   tmp = (col.hi - col.lo)/(the.bins - 1)
 #   return col.hi == col.lo and 1 or int(x/tmp + .5)*tmp
 
-def merged(col1, col2):
-  if col1 and col2:
-    col12 = deepcopy(col1)
-    for x,n in col2._has.items(): add(col12,x,n)
-    if div(col12) <= (col1.n*div(col1) + col2.n*div(col2))/col12.n:
-      return col12
-
 def bins(best,rest):
+  freq = {}
   for col in best.cols.x:
     if col.ako is NUM:
-      x     = lambda row: row.cells[col.at]
-      rows  = sorted([row for row in best.rows+rest.rows if x(row) != "?"])
-      eps   =  stdev(rows, x) * the.cohen
-      small = int(len(rows) / the.bins)
-      ys0,ys1,xs = SYM(),SYM(),NUM()
-      cooked = 0
-      cuts, icuts=[],[]
-      for i,row in enumerate(rows):
-        row.cooked[col].at = cooked
-        add(xs, x(row))
-        add(ys1, row.y)
-        if  xs.hi - xs.lo  > eps and xs.n > small and i < len(rows) - small:
-          if ys12 = merged(ys0,ys1):
-            y0 = ys12
-          cooked += 1
-          cuts   += x(row)
-          icuts  += [i]
-          ys0     = ys1
-          xs      = NUM()
+      counts(merges(bins1(col,best,rest)),col,freq)
+  return freq
 
-# def tally(best,rest):
-#   out={}
-#   for col in best.cols.x:
-#     for rows in [best.row, rest.rows]:
-#       for row in rows:
-#         x = row.cells[col.at]
-#         if x != "?":
-#           k = (row.y, col.at, discretize(col,x))
-#           out[k] = out.get(k,0) + 1
-#   return out
-#
-# def BIN(col):
-#   return BAG(ako=BIN, _rows=[], at=col.at, txt=col.txt,
-#              score=0, x=BAG(lo=inf, hi=-inf), y=SYM())
-#
-# def binAdd(bin, row, x, y, fun=lambda b,r: b):
-#   add(bin.y, y)
-#   bin.score  = fun(bin.y.has.get(True,10**-30), bin.y.has.get(False,10**-30))
-#   bin._rows += [row]
-#   bin.x.lo   = min(x, bin.x.lo)
-#   bin.x.hi   = max(x, bin.x.hi)
-#
+def bins1(col,best,rest):
+  x     = lambda row: row.cells[col.at]
+  rows  = sorted([row for row in best.rows+rest.rows if x(row) != "?"])
+  eps   = stdev(rows, x) * the.cohen
+  small = int(len(rows) / the.bins)
+  bags += [BAG(rows=[], lo=x(rows[0]), hi=x(rows[0]), ys=SYM())]
+  for i,row in enumerate(rows):
+    z       = all[-1]
+    z.hi    = x(row)
+    z.rows += [row]
+    add(z.ys, row.y)
+    if z.hi - z.lo  > eps and z.ys.n > small and i < len(rows) - small:
+      bags += [BAG(rows=[], lo=x(row), hi=x(row), ys=SYM())]
+  return bags
+
+def merges(b4):
+  i,now = 0,[]
+  while i < len(b4):
+    one = b4[i]
+    if i < len(b4) - 1:
+      two = b4[i+1]
+      if ys := merged(one.ys, two.ys):
+        one = BAG(rows=one.rows + one.rows, lo=one.lo, hi=two.hi, ys=ys)
+        i += 1
+    now += [one]
+    i += 1
+  return fillInTheGaps(b4) if len(now) == len(b4) else merges(now)
+
+def merged(col1, col2):
+  col12 = deepcopy(col1)
+  [add(col12,x,n) for x,n in col2._has.items()]
+  if div(col12) <= (col1.n*div(col1) + col2.n*div(col2))/col12.n:
+    return col12
+
+def fillInTheGaps(a):
+  a[0].lo, a[-1].hi = -inf, inf
+  for i in ranges(a) - 1: a[i].hi = a[i+1].lo
+  return a
+
+def counts(bins, col, freq):
+  for bin in enumerate(bins):
+    for row in bin.rows:
+      k = (col.at, bin.lo, bin.hi, row.y)
+      freq[k] = freq.get(k,0) + 1
+
 # def showBins(bins):
 #   tmp={}
 #   for b in bins:
@@ -186,29 +186,6 @@ def bins(best,rest):
 #     tmp[b.txt] += [(b.x.lo, b.x.hi)]
 #   return {k:sorted(v) for k,v in tmp.items()}
 #
-# def bins(data,fun):
-#   out = []
-#   for cols in [data.cols.x] : #  data.cols.y]:
-#     for col in cols:
-#       if col.ako is NUM:
-#         x    = lambda row: row.cells[col.at]
-#         a    = sorted([row for row in data.rows if x(row) != "?"], key=x)
-#         n    = len(a)
-#         out += _bins(a,col,x,fun, eps=the.cohen*div(col), tiny=n/the.bins)
-#   return sorted(out, key=lambda b:b.score,reverse=True)
-#
-# def _bins(rows,col,x, fun, eps=.35, tiny=4):
-#   out, new = [BIN(col)], True
-#   for i,row in enumerate(rows):
-#     if new:
-#       new = False
-#       out += [BIN(col)]
-#     bin = out[-1]
-#     binAdd(bin, row, x(row), row.y, fun)
-#     if len(bin._rows) > tiny and len(rows) - i > tiny:
-#       if x(row) - x(bin._rows[0]) > eps:
-#         new = x(row) != x(rows[i+1])
-#   return out
 # #------------------------------------------------ --------- --------- ----------
 # def rules(bins,fun):
 #   best = 0

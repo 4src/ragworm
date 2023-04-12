@@ -18,4 +18,5 @@ doc: ## generate documentation
 	     --show-source \
 		   --logo 'https://hetmanrecovery.com/pic/out/hetman_internet_spy_256x256.png' *.py
 
-
+tests: ## run test suite
+	sh p tests.py -g .
