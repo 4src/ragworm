@@ -170,7 +170,7 @@ def merged(col1, col2):
 
 def fillInTheGaps(a):
   a[0].lo, a[-1].hi = -inf, inf
-  for i in ranges(a) - 1: a[i].hi = a[i+1].lo
+  for i in ranges(len(a)-1): a[i].hi = a[i+1].lo
   return a
 
 def counts(bins, col, freq):
