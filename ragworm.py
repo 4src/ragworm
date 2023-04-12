@@ -127,26 +127,34 @@ def betters(data, rows=None):
 #   tmp = (col.hi - col.lo)/(the.bins - 1)
 #   return col.hi == col.lo and 1 or int(x/tmp + .5)*tmp
 
-def bins(best,rest):
-  freq = {}
+def freqs(best,rest):
+  out = {}
   for col in best.cols.x:
+    def x(row): return row.cells[col.at]
+    def inc(lo, hi, row):
+      if  lo != "?" and hi != "?" :
+         k = (col.at, x, x, row.y)
+         out[k] = out.get(k,0) + 1
+    #----------------
     if col.ako is NUM:
-      counts(merges(bins1(col,best,rest)),col,freq)
-  return freq
+      [inc(b.lo, b.hi, r) for b in merges(bins1(x,best,rest)) for r in b.rows]
+    else:
+      [inc(x(r), x(r), r) for r in best.rows+rest.rows]
+  return out
 
-def bins1(col,best,rest):
-  x     = lambda row: row.cells[col.at]
+def bins1(x,best,rest):
+  bin   = lambda lo: BAG(rows=[], lo=lo, hi=lo, ys=SYM())
   rows  = sorted([row for row in best.rows+rest.rows if x(row) != "?"])
   eps   = stdev(rows, x) * the.cohen
   small = int(len(rows) / the.bins)
-  bags += [BAG(rows=[], lo=x(rows[0]), hi=x(rows[0]), ys=SYM())]
+  bags += [bin(x(rows[0]))]
   for i,row in enumerate(rows):
-    z       = all[-1]
-    z.hi    = x(row)
-    z.rows += [row]
-    add(z.ys, row.y)
-    if z.hi - z.lo > eps and z.ys.n > small and i < len(rows) - small:
-      bags += [BAG(rows=[], lo=x(row), hi=x(row), ys=SYM())]
+    now       = all[-1]
+    now.hi    = x(row)
+    now.rows += [row]
+    add(now.ys, row.y)
+    if now.hi - now.lo > eps and now.ys.n > small and i < len(rows) - small:
+      bags += [bin(x(row))]
   return bags
 
 def merges(b4):
@@ -164,7 +172,7 @@ def merges(b4):
 
 def merged(col1, col2):
   col12 = deepcopy(col1)
-  [add(col12,x,n) for x,n in col2._has.items()]
+  [add(col12,s,n) for s,n in col2._has.items()]
   if div(col12) <= (col1.n*div(col1) + col2.n*div(col2))/col12.n:
     return col12
 
@@ -172,12 +180,6 @@ def fillInTheGaps(a):
   a[0].lo, a[-1].hi = -inf, inf
   for i in ranges(len(a)-1): a[i].hi = a[i+1].lo
   return a
-
-def counts(bins, col, freq):
-  for bin in enumerate(bins):
-    for row in bin.rows:
-      k = (col.at, bin.lo, bin.hi, row.y)
-      freq[k] = freq.get(k,0) + 1
 
 # def showBins(bins):
 #   tmp={}
