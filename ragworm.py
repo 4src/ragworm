@@ -127,35 +127,37 @@ def betters(data, rows=None):
 #   tmp = (col.hi - col.lo)/(the.bins - 1)
 #   return col.hi == col.lo and 1 or int(x/tmp + .5)*tmp
 
-def freqs(best,rest):
-  out = {}
+def freqs(best, rest, bins=lambda *l:True):
+  out={}
+  def inc(k): out[k] = out.get(k,0) + 1
   for col in best.cols.x:
-    def x(row): return row.cells[col.at]
-    def inc(lo, hi, row):
-      if  lo != "?" and hi != "?" :
-         k = (col.at, x, x, row.y)
-         out[k] = out.get(k,0) + 1
-    #----------------
+    x = lambda row: row.cells[col.at]
     if col.ako is NUM:
-      [inc(b.lo, b.hi, r) for b in merges(bins1(x,best,rest)) for r in b.rows]
+      for bin in discretize(x,col, best.rows + rest.rows):
+        bins(col.at, bin.lo, bin.hi)
+        for row in bin.rows:
+          inc((col.at, bin.lo, bin.hi, row.y))
     else:
-      [inc(x(r), x(r), r) for r in best.rows+rest.rows]
+      for row in best.rows + rest.rows:
+        if x(row) != "?":
+          bins(col.at, x(row), x(row))
+          inc((col.at, x(row), x(row), row.y))
   return out
 
-def bins1(x,best,rest):
-  bin   = lambda lo: BAG(rows=[], lo=lo, hi=lo, ys=SYM())
-  rows  = sorted([row for row in best.rows+rest.rows if x(row) != "?"])
+def discretize(x,rows):
+  bin   = lambda row: BAG(rows=[], lo=x(row), hi=x(row), ys=SYM())
+  rows  = sorted([row for row in rows if x(row) != "?"])
   eps   = stdev(rows, x) * the.cohen
   small = int(len(rows) / the.bins)
-  bags += [bin(x(rows[0]))]
+  bins += [bin(rows[0])]
   for i,row in enumerate(rows):
     now       = all[-1]
     now.hi    = x(row)
     now.rows += [row]
     add(now.ys, row.y)
     if now.hi - now.lo > eps and now.ys.n > small and i < len(rows) - small:
-      bags += [bin(x(row))]
-  return bags
+      bins += [bin(row)]
+  return merges(bins)
 
 def merges(b4):
   i,now = 0,[]
