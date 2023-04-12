@@ -17,10 +17,9 @@ def NUM(c=0,s=" "):
               lo=inf, hi=-inf, w = -1 if s[-1]=="-" else 1)
 
 def COLS(words):
-  cols = BAG(ako=COLS, names=words, named={}, x=[], y=[], all=[], klass=None)
+  cols = BAG(ako=COLS, names=words, x=[], y=[], all=[], klass=None)
   for c,s in enumerate(words):
     col = (NUM if s[0].isupper() else SYM)(c,s)
-    cols.named[s] = col
     cols.all += [col]
     if s[-1] != "X":
       if s[-1]=="!": klass=col
@@ -37,7 +36,10 @@ def DATA(src, rows=[]):
   return data
 
 def ROW(a):
-  return BAG(ako=ROW, cells=a, cooked=a[:])
+  return BAG(ako=ROW, cells=a)
+
+def BIN():
+  return BAG(ako=BIN, rows=[], lo=inf, hi=-inf, ys=SYM()))
 #------------------------------------------------ --------- --------- ----------
 def adds(data,row):
   if data.cols:
@@ -51,21 +53,20 @@ def add(col,x,inc=1):
   col.n += inc
   if col.ako is SYM:
     tmp = col._has[x] = col._has.get(x,0) + inc
-    if tmp > col.most:
-      col.most,col.mode = tmp,x
+    if tmp > col.most: col.most,col.mode = tmp,x
   else:
     col.lo = min(x, col.lo)
     col.hi = max(x, col.hi)
-    if len(col._has) < the.nums:
-      col.ok=False
-      col._has += [x]
-    elif r() < the.nums/col.n:
-      col.ok=False
-      col._has[int(len(col._has)*r())] = x
+    reservoir_sampling(col, col._has, x)
+  return col
+
+def reservoir_sampling(col,a,x):
+  if len(a) < the.nums      : col.ok=False; a += [x]
+  elif r() < the.nums/col.n : col.ok=False; a[int(len(a)*r())] = x
 
 def ok(col):
   if col.ako is NUM and not col.ok: 
-    col._has=sorted(col._has)
+    col._has = sorted(col._has)
     col.ok=True
   return col
 
@@ -127,34 +128,34 @@ def betters(data, rows=None):
 #   tmp = (col.hi - col.lo)/(the.bins - 1)
 #   return col.hi == col.lo and 1 or int(x/tmp + .5)*tmp
 
-def freqs(best, rest, bins=lambda *l:True):
+def freqs(best, rest, also=lambda x:True):
   out = {}
-  def remember(k): bins(k); out[k] = out.get(k,0) + 1
+  def remember(k): out[k] = out.get(k,0) + 1; also(k)
   for col in best.cols.x:
     x = lambda row: row.cells[col.at]
+    rows  = [row for row in best.rows + rest.rows if x(row) != "?"]
     if col.ako is NUM:
-      for bin in discretize(x,col, best.rows + rest.rows):
+      for bin in discretize(rows,x)
         for row in bin.rows:
-          remember((col.at, bin.lo, bin.hi, row.y))
+          remember((row.y, col.at, bin.lo, bin.hi))
     else:
-      for row in best.rows + rest.rows:
-        if x(row) != "?":
-          remember((col.at, x(row), x(row), row.y))
+      for row in rows:
+        remember((row.y,col.at, x(row), x(row)))
   return out
 
-def discretize(x,rows):
-  bin   = lambda row: BAG(rows=[], lo=x(row), hi=x(row), ys=SYM())
-  rows  = sorted([row for row in rows if x(row) != "?"])
+def discretize(rows,x):
+  rows  = sorted(rows,key=x)
   eps   = stdev(rows, x) * the.cohen
   small = int(len(rows) / the.bins)
-  bins += [bin(rows[0])]
+  bins += [BIN()]
   for i,row in enumerate(rows):
     now       = all[-1]
-    now.hi    = x(row)
+    now.lo    = min(x(row),now.lo)
+    now.hi    = max(x(row),now.hi)
     now.rows += [row]
     add(now.ys, row.y)
     if now.hi - now.lo > eps and now.ys.n > small and i < len(rows) - small:
-      bins += [bin(row)]
+      bins += [BIN()]
   return merges(bins)
 
 def merges(b4):
