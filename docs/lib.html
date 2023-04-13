@@ -126,8 +126,14 @@ def run(fun, settings):
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="lib.cli"><code class="name flex">
-<span>def <span class="ident">cli</span></span>(<span>d)</span>
+<dt id="lib.r"><code class="name flex">
+<span>def <span class="ident">r</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>random() -&gt; x in the interval [0, 1).</p></div>
+</dd>
+<dt id="lib.figfont"><code class="name flex">
+<span>def <span class="ident">figfont</span></span>(<span>txt, font)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -135,18 +141,12 @@ def run(fun, settings):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def cli(d):
-  for k,v in d.items():
-    v=str(v)
-    for i,x in enumerate(sys.argv):
-      if (&#34;-&#34;+k[0]) == x:
-         v=&#34;False&#34; if v==&#34;True&#34; else (&#34;True&#34; if v==&#34;False&#34; else sys.argv[i+1])
-      d[k] = coerce(v)
-  return d</code></pre>
+<pre><code class="python">def figfont(txt,font):
+  return Figlet(font=font).renderText(txt)</code></pre>
 </details>
 </dd>
-<dt id="lib.coerce"><code class="name flex">
-<span>def <span class="ident">coerce</span></span>(<span>x)</span>
+<dt id="lib.yell"><code class="name flex">
+<span>def <span class="ident">yell</span></span>(<span>s, c)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -154,10 +154,89 @@ def run(fun, settings):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def coerce(x):
-  if x==&#34;?&#34;: return x
-  try: return ast.literal_eval(x)
-  except: return x</code></pre>
+<pre><code class="python">def yell(s,c):
+  print(colored(s,&#34;light_&#34;+c,attrs=[&#34;bold&#34;]),end=&#34;&#34;)</code></pre>
+</details>
+</dd>
+<dt id="lib.showd"><code class="name flex">
+<span>def <span class="ident">showd</span></span>(<span>d)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def showd(d): return &#34;{&#34;+(&#34; &#34;.join([f&#34;:{k} {show(v)}&#34;
+                         for k,v in d.items() if k[0]!=&#34;_&#34;]))+&#34;}&#34;</code></pre>
+</details>
+</dd>
+<dt id="lib.show"><code class="name flex">
+<span>def <span class="ident">show</span></span>(<span>x)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show(x):
+  if callable(x)         : return x.__name__+&#39;()&#39;
+  if isinstance(x,float) : return f&#34;{x:.2f}&#34;
+  return x</code></pre>
+</details>
+</dd>
+<dt id="lib.per"><code class="name flex">
+<span>def <span class="ident">per</span></span>(<span>a, p=0.5, key=&lt;function &lt;lambda&gt;&gt;)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def per(a, p=.5, key=lambda x:x):
+  p=int(len(a)*p); p=max(0,min(len(a)-1,p)); return key(a[p])</code></pre>
+</details>
+</dd>
+<dt id="lib.median"><code class="name flex">
+<span>def <span class="ident">median</span></span>(<span>a, key=&lt;function &lt;lambda&gt;&gt;)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def median(a, key=lambda x:x):
+  return key(per(a,.5))</code></pre>
+</details>
+</dd>
+<dt id="lib.stdev"><code class="name flex">
+<span>def <span class="ident">stdev</span></span>(<span>a, key=&lt;function &lt;lambda&gt;&gt;)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def stdev(a, key=lambda x:x):
+  return (key(per(a,.9)) - key(per(a,.1)))/2.56</code></pre>
+</details>
+</dd>
+<dt id="lib.ent"><code class="name flex">
+<span>def <span class="ident">ent</span></span>(<span>d)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ent(d):
+  n = sum(( d[k] for k in d))
+  return -sum((d[k]/n*math.log(d[k]/n,2) for k in d if d[k]&gt;0))</code></pre>
 </details>
 </dd>
 <dt id="lib.csv"><code class="name flex">
@@ -177,8 +256,8 @@ def run(fun, settings):
         yield [coerce(cell.strip()) for cell in line.split(&#34;,&#34;)]</code></pre>
 </details>
 </dd>
-<dt id="lib.ent"><code class="name flex">
-<span>def <span class="ident">ent</span></span>(<span>d)</span>
+<dt id="lib.coerce"><code class="name flex">
+<span>def <span class="ident">coerce</span></span>(<span>x)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -186,13 +265,14 @@ def run(fun, settings):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def ent(d):
-  n = sum(( d[k] for k in d))
-  return -sum((d[k]/n*math.log(d[k]/n,2) for k in d if d[k]&gt;0))</code></pre>
+<pre><code class="python">def coerce(x):
+  if x==&#34;?&#34;: return x
+  try: return ast.literal_eval(x)
+  except: return x</code></pre>
 </details>
 </dd>
-<dt id="lib.figfont"><code class="name flex">
-<span>def <span class="ident">figfont</span></span>(<span>txt, font)</span>
+<dt id="lib.cli"><code class="name flex">
+<span>def <span class="ident">cli</span></span>(<span>d)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -200,12 +280,18 @@ def run(fun, settings):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def figfont(txt,font):
-  return Figlet(font=font).renderText(txt)</code></pre>
+<pre><code class="python">def cli(d):
+  for k,v in d.items():
+    v=str(v)
+    for i,x in enumerate(sys.argv):
+      if (&#34;-&#34;+k[0]) == x:
+         v=&#34;False&#34; if v==&#34;True&#34; else (&#34;True&#34; if v==&#34;False&#34; else sys.argv[i+1])
+      d[k] = coerce(v)
+  return d</code></pre>
 </details>
 </dd>
-<dt id="lib.median"><code class="name flex">
-<span>def <span class="ident">median</span></span>(<span>a, key=&lt;function &lt;lambda&gt;&gt;)</span>
+<dt id="lib.runs"><code class="name flex">
+<span>def <span class="ident">runs</span></span>(<span>the, funs)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -213,28 +299,13 @@ def run(fun, settings):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def median(a, key=lambda x:x):
-  return key(per(a,.5))</code></pre>
+<pre><code class="python">def runs(the,funs):
+  print(figfont(&#34;tests&#34;,&#34;ogre&#34;),end=&#34;&#34;)
+  n = sum((run(fun,the) for fun in funs if re.match(&#34;^&#34;+the.go, fun.__name__)))
+  yell(f&#34;{n} FAILURE(S)\n&#34;,&#34;red&#34;) if n&gt;0 else yell(&#34;ALL PASSED\n&#34;,&#34;green&#34;)
+  print(n)
+  return n</code></pre>
 </details>
-</dd>
-<dt id="lib.per"><code class="name flex">
-<span>def <span class="ident">per</span></span>(<span>a, p=0.5, key=&lt;function &lt;lambda&gt;&gt;)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def per(a, p=.5, key=lambda x:x):
-  p=int(len(a)*p); p=max(0,min(len(a)-1,p)); return key(a[p])</code></pre>
-</details>
-</dd>
-<dt id="lib.r"><code class="name flex">
-<span>def <span class="ident">r</span></span>(<span>)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>random() -&gt; x in the interval [0, 1).</p></div>
 </dd>
 <dt id="lib.run"><code class="name flex">
 <span>def <span class="ident">run</span></span>(<span>fun, settings)</span>
@@ -258,77 +329,6 @@ def run(fun, settings):
   yell(&#34;✘\n&#34;,&#34;red&#34;) if fail else yell(&#34;✔\n&#34;,&#34;green&#34;)
   for k in cache: settings[k] = cache[k]
   return fail</code></pre>
-</details>
-</dd>
-<dt id="lib.runs"><code class="name flex">
-<span>def <span class="ident">runs</span></span>(<span>the, funs)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def runs(the,funs):
-  print(figfont(&#34;tests&#34;,&#34;ogre&#34;),end=&#34;&#34;)
-  n = sum((run(fun,the) for fun in funs if re.match(&#34;^&#34;+the.go, fun.__name__)))
-  yell(f&#34;{n} FAILURE(S)\n&#34;,&#34;red&#34;) if n&gt;0 else yell(&#34;ALL PASSED\n&#34;,&#34;green&#34;)
-  print(n)
-  return n</code></pre>
-</details>
-</dd>
-<dt id="lib.show"><code class="name flex">
-<span>def <span class="ident">show</span></span>(<span>x)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def show(x):
-  if callable(x)         : return x.__name__+&#39;()&#39;
-  if isinstance(x,float) : return f&#34;{x:.2f}&#34;
-  return x</code></pre>
-</details>
-</dd>
-<dt id="lib.showd"><code class="name flex">
-<span>def <span class="ident">showd</span></span>(<span>d)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def showd(d): return &#34;{&#34;+(&#34; &#34;.join([f&#34;:{k} {show(v)}&#34;
-                         for k,v in d.items() if k[0]!=&#34;_&#34;]))+&#34;}&#34;</code></pre>
-</details>
-</dd>
-<dt id="lib.stdev"><code class="name flex">
-<span>def <span class="ident">stdev</span></span>(<span>a, key=&lt;function &lt;lambda&gt;&gt;)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def stdev(a, key=lambda x:x):
-  return (key(per(a,.9)) - key(per(a,.1)))/2.56</code></pre>
-</details>
-</dd>
-<dt id="lib.yell"><code class="name flex">
-<span>def <span class="ident">yell</span></span>(<span>s, c)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def yell(s,c):
-  print(colored(s,&#34;light_&#34;+c,attrs=[&#34;bold&#34;]),end=&#34;&#34;)</code></pre>
 </details>
 </dd>
 </dl>
@@ -397,20 +397,20 @@ src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" 
 <ul id="index">
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="two-column">
-<li><code><a title="lib.cli" href="#lib.cli">cli</a></code></li>
-<li><code><a title="lib.coerce" href="#lib.coerce">coerce</a></code></li>
-<li><code><a title="lib.csv" href="#lib.csv">csv</a></code></li>
-<li><code><a title="lib.ent" href="#lib.ent">ent</a></code></li>
-<li><code><a title="lib.figfont" href="#lib.figfont">figfont</a></code></li>
-<li><code><a title="lib.median" href="#lib.median">median</a></code></li>
-<li><code><a title="lib.per" href="#lib.per">per</a></code></li>
 <li><code><a title="lib.r" href="#lib.r">r</a></code></li>
-<li><code><a title="lib.run" href="#lib.run">run</a></code></li>
-<li><code><a title="lib.runs" href="#lib.runs">runs</a></code></li>
-<li><code><a title="lib.show" href="#lib.show">show</a></code></li>
-<li><code><a title="lib.showd" href="#lib.showd">showd</a></code></li>
-<li><code><a title="lib.stdev" href="#lib.stdev">stdev</a></code></li>
+<li><code><a title="lib.figfont" href="#lib.figfont">figfont</a></code></li>
 <li><code><a title="lib.yell" href="#lib.yell">yell</a></code></li>
+<li><code><a title="lib.showd" href="#lib.showd">showd</a></code></li>
+<li><code><a title="lib.show" href="#lib.show">show</a></code></li>
+<li><code><a title="lib.per" href="#lib.per">per</a></code></li>
+<li><code><a title="lib.median" href="#lib.median">median</a></code></li>
+<li><code><a title="lib.stdev" href="#lib.stdev">stdev</a></code></li>
+<li><code><a title="lib.ent" href="#lib.ent">ent</a></code></li>
+<li><code><a title="lib.csv" href="#lib.csv">csv</a></code></li>
+<li><code><a title="lib.coerce" href="#lib.coerce">coerce</a></code></li>
+<li><code><a title="lib.cli" href="#lib.cli">cli</a></code></li>
+<li><code><a title="lib.runs" href="#lib.runs">runs</a></code></li>
+<li><code><a title="lib.run" href="#lib.run">run</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>

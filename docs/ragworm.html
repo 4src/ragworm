@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>ragworm API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="ragworm.py : the smallest brain I can imagine
+(c) 2023 Tim Menzies &lt;timm@ieee.og&gt; BSD-2 …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,11 +23,32 @@
 <h1 class="title">Module <code>ragworm</code></h1>
 </header>
 <section id="section-intro">
+<p>ragworm.py : the smallest brain I can imagine
+<br>
+(c) 2023 Tim Menzies <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#116;&#105;&#109;&#109;&#64;&#105;&#101;&#101;&#101;&#46;&#111;&#103;">&#116;&#105;&#109;&#109;&#64;&#105;&#101;&#101;&#101;&#46;&#111;&#103;</a> BSD-2</p>
+<p>USAGE: python3 -B tests.py [OPTIONS] [-g ACTION]</p>
+<h2 id="options">Options</h2>
+<p>-h &ndash;help
+show help = True
+-h &ndash;help
+show help = True</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python"># vim: set et sts=2 sw=2 ts=2 :
+&#34;&#34;&#34;
+ragworm.py : the smallest brain I can imagine    
+(c) 2023 Tim Menzies &lt;timm@ieee.og&gt; BSD-2
+
+USAGE: python3 -B tests.py [OPTIONS] [-g ACTION]
+
+OPTIONS:
+
+        -h --help  show help = True
+        -h --help  show help = True
+
+&#34;&#34;&#34;
 from lib import *
 import math
 import random
@@ -247,8 +269,14 @@ def fillInTheGaps(a):
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="ragworm.BIN"><code class="name flex">
-<span>def <span class="ident">BIN</span></span>(<span>)</span>
+<dt id="ragworm.r"><code class="name flex">
+<span>def <span class="ident">r</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>random() -&gt; x in the interval [0, 1).</p></div>
+</dd>
+<dt id="ragworm.SYM"><code class="name flex">
+<span>def <span class="ident">SYM</span></span>(<span>c=0, s=' ')</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -256,8 +284,22 @@ def fillInTheGaps(a):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def BIN():
-  return BAG(ako=BIN, rows=[], lo=inf, hi=-inf, ys=SYM())</code></pre>
+<pre><code class="python">def SYM(c=0,s=&#34; &#34;):
+   return BAG(ako=SYM, at=c, txt=s, n=0, _has={},mode=None,most=0)</code></pre>
+</details>
+</dd>
+<dt id="ragworm.NUM"><code class="name flex">
+<span>def <span class="ident">NUM</span></span>(<span>c=0, s=' ')</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def NUM(c=0,s=&#34; &#34;):
+  return BAG(ako=NUM, at=c, txt=s, n=0, _has=[], ok=False,
+              lo=inf, hi=-inf, w = -1 if s[-1]==&#34;-&#34; else 1)</code></pre>
 </details>
 </dd>
 <dt id="ragworm.COLS"><code class="name flex">
@@ -299,20 +341,6 @@ def fillInTheGaps(a):
   return data</code></pre>
 </details>
 </dd>
-<dt id="ragworm.NUM"><code class="name flex">
-<span>def <span class="ident">NUM</span></span>(<span>c=0, s=' ')</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def NUM(c=0,s=&#34; &#34;):
-  return BAG(ako=NUM, at=c, txt=s, n=0, _has=[], ok=False,
-              lo=inf, hi=-inf, w = -1 if s[-1]==&#34;-&#34; else 1)</code></pre>
-</details>
-</dd>
 <dt id="ragworm.ROW"><code class="name flex">
 <span>def <span class="ident">ROW</span></span>(<span>a)</span>
 </code></dt>
@@ -326,8 +354,8 @@ def fillInTheGaps(a):
   return BAG(ako=ROW, cells=a)</code></pre>
 </details>
 </dd>
-<dt id="ragworm.SYM"><code class="name flex">
-<span>def <span class="ident">SYM</span></span>(<span>c=0, s=' ')</span>
+<dt id="ragworm.BIN"><code class="name flex">
+<span>def <span class="ident">BIN</span></span>(<span>)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -335,8 +363,25 @@ def fillInTheGaps(a):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def SYM(c=0,s=&#34; &#34;):
-   return BAG(ako=SYM, at=c, txt=s, n=0, _has={},mode=None,most=0)</code></pre>
+<pre><code class="python">def BIN():
+  return BAG(ako=BIN, rows=[], lo=inf, hi=-inf, ys=SYM())</code></pre>
+</details>
+</dd>
+<dt id="ragworm.adds"><code class="name flex">
+<span>def <span class="ident">adds</span></span>(<span>data, row)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def adds(data,row):
+  if data.cols:
+    data.rows += [row]
+    for col in data.cols.all: add(col,row.cells[col.at])
+  else:
+    data.cols = COLS(row.cells)</code></pre>
 </details>
 </dd>
 <dt id="ragworm.add"><code class="name flex">
@@ -361,8 +406,8 @@ def fillInTheGaps(a):
   return col</code></pre>
 </details>
 </dd>
-<dt id="ragworm.adds"><code class="name flex">
-<span>def <span class="ident">adds</span></span>(<span>data, row)</span>
+<dt id="ragworm.reservoir_sampling"><code class="name flex">
+<span>def <span class="ident">reservoir_sampling</span></span>(<span>col, a, x)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -370,12 +415,79 @@ def fillInTheGaps(a):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def adds(data,row):
-  if data.cols:
-    data.rows += [row]
-    for col in data.cols.all: add(col,row.cells[col.at])
-  else:
-    data.cols = COLS(row.cells)</code></pre>
+<pre><code class="python">def reservoir_sampling(col,a,x):
+  if len(a) &lt; the.nums      : col.ok=False; a += [x]
+  elif r() &lt; the.nums/col.n : col.ok=False; a[int(len(a)*r())] = x</code></pre>
+</details>
+</dd>
+<dt id="ragworm.ok"><code class="name flex">
+<span>def <span class="ident">ok</span></span>(<span>col)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ok(col):
+  if col.ako is NUM and not col.ok: 
+    col._has = sorted(col._has)
+    col.ok=True
+  return col</code></pre>
+</details>
+</dd>
+<dt id="ragworm.mid"><code class="name flex">
+<span>def <span class="ident">mid</span></span>(<span>col)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mid(col):
+  return col.mode if col.ako is SYM else median(ok(col)._has)</code></pre>
+</details>
+</dd>
+<dt id="ragworm.div"><code class="name flex">
+<span>def <span class="ident">div</span></span>(<span>col)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def div(col):
+  return ent(col._has) if col.ako is SYM else stdev(ok(col)._has)</code></pre>
+</details>
+</dd>
+<dt id="ragworm.stats"><code class="name flex">
+<span>def <span class="ident">stats</span></span>(<span>data, cols=None, fun=&lt;function mid&gt;)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def stats(data, cols=None, fun=mid):
+  tmp = {col.txt: fun(col) for col in (cols or data.cols.y)}
+  tmp[&#34;N&#34;] = len(data.rows)
+  return BAG(**tmp)</code></pre>
+</details>
+</dd>
+<dt id="ragworm.norm"><code class="name flex">
+<span>def <span class="ident">norm</span></span>(<span>num, x)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def norm(num,x):
+  return x if x==&#34;?&#34; else (x - num.lo)/(num.hi - num.lo + 1/inf)</code></pre>
 </details>
 </dd>
 <dt id="ragworm.better"><code class="name flex">
@@ -416,59 +528,6 @@ def fillInTheGaps(a):
   return DATA(data,best), DATA(data,random.sample(rest, len(best)*the.rest))</code></pre>
 </details>
 </dd>
-<dt id="ragworm.discretize"><code class="name flex">
-<span>def <span class="ident">discretize</span></span>(<span>rows, x)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def discretize(rows,x):
-  rows  = sorted(rows,key=x)
-  eps   = stdev(rows, x) * the.cohen
-  small = int(len(rows) / the.bins)
-  bins += [BIN()]
-  for i,row in enumerate(rows):
-    now       = all[-1]
-    now.lo    = min(x(row),now.lo)
-    now.hi    = max(x(row),now.hi)
-    now.rows += [row]
-    add(now.ys, row.y)
-    if now.hi - now.lo &gt; eps and now.ys.n &gt; small and i &lt; len(rows) - small:
-      bins += [BIN()]
-  return merges(bins)</code></pre>
-</details>
-</dd>
-<dt id="ragworm.div"><code class="name flex">
-<span>def <span class="ident">div</span></span>(<span>col)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def div(col):
-  return ent(col._has) if col.ako is SYM else stdev(ok(col)._has)</code></pre>
-</details>
-</dd>
-<dt id="ragworm.fillInTheGaps"><code class="name flex">
-<span>def <span class="ident">fillInTheGaps</span></span>(<span>a)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def fillInTheGaps(a):
-  a[0].lo, a[-1].hi = -inf, inf
-  for i in ranges(len(a)-1): a[i].hi = a[i+1].lo
-  return a</code></pre>
-</details>
-</dd>
 <dt id="ragworm.freqs"><code class="name flex">
 <span>def <span class="ident">freqs</span></span>(<span>best, rest, also=&lt;function &lt;lambda&gt;&gt;)</span>
 </code></dt>
@@ -494,8 +553,8 @@ def fillInTheGaps(a):
   return out</code></pre>
 </details>
 </dd>
-<dt id="ragworm.merged"><code class="name flex">
-<span>def <span class="ident">merged</span></span>(<span>col1, col2)</span>
+<dt id="ragworm.discretize"><code class="name flex">
+<span>def <span class="ident">discretize</span></span>(<span>rows, x)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -503,11 +562,20 @@ def fillInTheGaps(a):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def merged(col1, col2):
-  col12 = deepcopy(col1)
-  [add(col12,s,n) for s,n in col2._has.items()]
-  if div(col12) &lt;= (col1.n*div(col1) + col2.n*div(col2))/col12.n:
-    return col12</code></pre>
+<pre><code class="python">def discretize(rows,x):
+  rows  = sorted(rows,key=x)
+  eps   = stdev(rows, x) * the.cohen
+  small = int(len(rows) / the.bins)
+  bins += [BIN()]
+  for i,row in enumerate(rows):
+    now       = all[-1]
+    now.lo    = min(x(row),now.lo)
+    now.hi    = max(x(row),now.hi)
+    now.rows += [row]
+    add(now.ys, row.y)
+    if now.hi - now.lo &gt; eps and now.ys.n &gt; small and i &lt; len(rows) - small:
+      bins += [BIN()]
+  return merges(bins)</code></pre>
 </details>
 </dd>
 <dt id="ragworm.merges"><code class="name flex">
@@ -533,8 +601,8 @@ def fillInTheGaps(a):
   return fillInTheGaps(b4) if len(b4) == len(now) else merges(now)</code></pre>
 </details>
 </dd>
-<dt id="ragworm.mid"><code class="name flex">
-<span>def <span class="ident">mid</span></span>(<span>col)</span>
+<dt id="ragworm.merged"><code class="name flex">
+<span>def <span class="ident">merged</span></span>(<span>col1, col2)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -542,12 +610,15 @@ def fillInTheGaps(a):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def mid(col):
-  return col.mode if col.ako is SYM else median(ok(col)._has)</code></pre>
+<pre><code class="python">def merged(col1, col2):
+  col12 = deepcopy(col1)
+  [add(col12,s,n) for s,n in col2._has.items()]
+  if div(col12) &lt;= (col1.n*div(col1) + col2.n*div(col2))/col12.n:
+    return col12</code></pre>
 </details>
 </dd>
-<dt id="ragworm.norm"><code class="name flex">
-<span>def <span class="ident">norm</span></span>(<span>num, x)</span>
+<dt id="ragworm.fillInTheGaps"><code class="name flex">
+<span>def <span class="ident">fillInTheGaps</span></span>(<span>a)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -555,59 +626,10 @@ def fillInTheGaps(a):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def norm(num,x):
-  return x if x==&#34;?&#34; else (x - num.lo)/(num.hi - num.lo + 1/inf)</code></pre>
-</details>
-</dd>
-<dt id="ragworm.ok"><code class="name flex">
-<span>def <span class="ident">ok</span></span>(<span>col)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def ok(col):
-  if col.ako is NUM and not col.ok: 
-    col._has = sorted(col._has)
-    col.ok=True
-  return col</code></pre>
-</details>
-</dd>
-<dt id="ragworm.r"><code class="name flex">
-<span>def <span class="ident">r</span></span>(<span>)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>random() -&gt; x in the interval [0, 1).</p></div>
-</dd>
-<dt id="ragworm.reservoir_sampling"><code class="name flex">
-<span>def <span class="ident">reservoir_sampling</span></span>(<span>col, a, x)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def reservoir_sampling(col,a,x):
-  if len(a) &lt; the.nums      : col.ok=False; a += [x]
-  elif r() &lt; the.nums/col.n : col.ok=False; a[int(len(a)*r())] = x</code></pre>
-</details>
-</dd>
-<dt id="ragworm.stats"><code class="name flex">
-<span>def <span class="ident">stats</span></span>(<span>data, cols=None, fun=&lt;function mid&gt;)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def stats(data, cols=None, fun=mid):
-  tmp = {col.txt: fun(col) for col in (cols or data.cols.y)}
-  tmp[&#34;N&#34;] = len(data.rows)
-  return BAG(**tmp)</code></pre>
+<pre><code class="python">def fillInTheGaps(a):
+  a[0].lo, a[-1].hi = -inf, inf
+  for i in ranges(len(a)-1): a[i].hi = a[i+1].lo
+  return a</code></pre>
 </details>
 </dd>
 </dl>
@@ -642,28 +664,28 @@ src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" 
 <ul id="index">
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="two-column">
-<li><code><a title="ragworm.BIN" href="#ragworm.BIN">BIN</a></code></li>
+<li><code><a title="ragworm.r" href="#ragworm.r">r</a></code></li>
+<li><code><a title="ragworm.SYM" href="#ragworm.SYM">SYM</a></code></li>
+<li><code><a title="ragworm.NUM" href="#ragworm.NUM">NUM</a></code></li>
 <li><code><a title="ragworm.COLS" href="#ragworm.COLS">COLS</a></code></li>
 <li><code><a title="ragworm.DATA" href="#ragworm.DATA">DATA</a></code></li>
-<li><code><a title="ragworm.NUM" href="#ragworm.NUM">NUM</a></code></li>
 <li><code><a title="ragworm.ROW" href="#ragworm.ROW">ROW</a></code></li>
-<li><code><a title="ragworm.SYM" href="#ragworm.SYM">SYM</a></code></li>
-<li><code><a title="ragworm.add" href="#ragworm.add">add</a></code></li>
+<li><code><a title="ragworm.BIN" href="#ragworm.BIN">BIN</a></code></li>
 <li><code><a title="ragworm.adds" href="#ragworm.adds">adds</a></code></li>
+<li><code><a title="ragworm.add" href="#ragworm.add">add</a></code></li>
+<li><code><a title="ragworm.reservoir_sampling" href="#ragworm.reservoir_sampling">reservoir_sampling</a></code></li>
+<li><code><a title="ragworm.ok" href="#ragworm.ok">ok</a></code></li>
+<li><code><a title="ragworm.mid" href="#ragworm.mid">mid</a></code></li>
+<li><code><a title="ragworm.div" href="#ragworm.div">div</a></code></li>
+<li><code><a title="ragworm.stats" href="#ragworm.stats">stats</a></code></li>
+<li><code><a title="ragworm.norm" href="#ragworm.norm">norm</a></code></li>
 <li><code><a title="ragworm.better" href="#ragworm.better">better</a></code></li>
 <li><code><a title="ragworm.betters" href="#ragworm.betters">betters</a></code></li>
-<li><code><a title="ragworm.discretize" href="#ragworm.discretize">discretize</a></code></li>
-<li><code><a title="ragworm.div" href="#ragworm.div">div</a></code></li>
-<li><code><a title="ragworm.fillInTheGaps" href="#ragworm.fillInTheGaps">fillInTheGaps</a></code></li>
 <li><code><a title="ragworm.freqs" href="#ragworm.freqs">freqs</a></code></li>
-<li><code><a title="ragworm.merged" href="#ragworm.merged">merged</a></code></li>
+<li><code><a title="ragworm.discretize" href="#ragworm.discretize">discretize</a></code></li>
 <li><code><a title="ragworm.merges" href="#ragworm.merges">merges</a></code></li>
-<li><code><a title="ragworm.mid" href="#ragworm.mid">mid</a></code></li>
-<li><code><a title="ragworm.norm" href="#ragworm.norm">norm</a></code></li>
-<li><code><a title="ragworm.ok" href="#ragworm.ok">ok</a></code></li>
-<li><code><a title="ragworm.r" href="#ragworm.r">r</a></code></li>
-<li><code><a title="ragworm.reservoir_sampling" href="#ragworm.reservoir_sampling">reservoir_sampling</a></code></li>
-<li><code><a title="ragworm.stats" href="#ragworm.stats">stats</a></code></li>
+<li><code><a title="ragworm.merged" href="#ragworm.merged">merged</a></code></li>
+<li><code><a title="ragworm.fillInTheGaps" href="#ragworm.fillInTheGaps">fillInTheGaps</a></code></li>
 </ul>
 </li>
 </ul>

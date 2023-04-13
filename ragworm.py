@@ -1,4 +1,16 @@
 # vim: set et sts=2 sw=2 ts=2 :
+"""
+ragworm.py : the smallest brain I can imagine    
+(c) 2023 Tim Menzies <timm@ieee.og> BSD-2
+
+USAGE: python3 -B tests.py [OPTIONS] [-g ACTION]
+
+OPTIONS:
+
+  -h --help  show help = True
+  -h --help  show help = True
+
+"""
 from lib import *
 import math
 import random
@@ -57,10 +69,10 @@ def add(col,x,inc=1):
   else:
     col.lo = min(x, col.lo)
     col.hi = max(x, col.hi)
-    reservoir_sampling(col, col._has, x)
+    keepSome(col, col._has, x)
   return col
 
-def reservoir_sampling(col,a,x):
+def keepSome(col,a,x):
   if len(a) < the.nums      : col.ok=False; a += [x]
   elif r() < the.nums/col.n : col.ok=False; a[int(len(a)*r())] = x
 
