@@ -13,7 +13,7 @@ seed = random.seed
 r    = random.random
 
 inf  = sys.maxsize / 2
-ninf = -inf - 1
+ninf = -inf + 1
 #------------------------------------------------ --------- --------- ----------
 def figfont(txt,font):
   return Figlet(font=font).renderText(txt)
@@ -70,11 +70,11 @@ def cli(d):
   return d
 #------------------------------------------------ --------- --------- ----------
 def runs(the,funs):
+  the=cli(the)
   print(figfont("tests","ogre"),end="")
   n = sum((run(fun,the) for fun in funs if re.match("^"+the.go, fun.__name__)))
   yell(f"{n} FAILURE(S)\n","red") if n>0 else yell("ALL PASSED\n","green")
-  print(n)
-  return n
+  sys.exit(n)
 
 def run(fun, settings):
   fail, cache = False, {k:settings[k] for k in settings}

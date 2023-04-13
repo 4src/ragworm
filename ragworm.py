@@ -11,24 +11,26 @@ OPTIONS:
   -h --help  show help = True
 
 """
-from lib import *
 import math
 import random
 from copy import deepcopy
 from functools import cmp_to_key
-
+from lib import *
 #------------------------------------------------ --------- --------- ----------
 the = BAG(cohen=.5, some=256, bins=7, k=1, m=2, go=".",
           min=.5, rest=3, file="../data/auto93.csv", seed=1234567891)
 #------------------------------------------------ --------- --------- ----------
 def SYM(c=0,s=" "):
-   return BAG(ako=SYM, at=c, txt=s, n=0, _has={},mode=None,most=0)
+  "summarize stream of symbols"
+  return BAG(ako=SYM, at=c, txt=s, n=0, _has={},mode=None,most=0)
 
 def NUM(c=0,s=" "):
+  "summarize stream of numbers"
   return BAG(ako=NUM, at=c, txt=s, n=0, _has=[], sorted=False,
               lo=inf, hi=-inf, w = -1 if s[-1]=="-" else 1)
 
 def COLS(words):
+  "factory for generating summary objects"
   cols = BAG(ako=COLS, names=words, x=[], y=[], all=[], klass=None)
   for c,s in enumerate(words):
     col = (NUM if s[0].isupper() else SYM)(c,s)
@@ -140,7 +142,7 @@ def betters(data, rows=None):
 
 def freqs(best, rest, also=lambda *_:True):
   out = {}
-  def remember(a,b,c,d): k=(a,b,c,d); out[k] = out.get(k,0) + 1; also(a,b,c)
+  def remember(y,col,lo,hi): k=(y,col,lo,hi); out[k]=out.get(k,0)+1; also(col,lo,hi)
   for col in best.cols.x:
     x = lambda row: row.cells[col.at]
     rows  = [row for row in best.rows + rest.rows if x(row) != "?"]
@@ -157,9 +159,9 @@ def discretize(rows,x):
   rows  = sorted(rows,key=x)
   eps   = stdev(rows, x) * the.cohen
   small = int(len(rows) / the.bins)
-  bins += [BIN()]
+  bins  = [BIN()]
   for i,row in enumerate(rows):
-    now       = all[-1]
+    now       = bins[-1]
     now.lo    = min(x(row),now.lo)
     now.hi    = max(x(row),now.hi)
     now.rows += [row]
@@ -179,7 +181,8 @@ def merges(b4):
         i += 1
     now += [one]
     i += 1
-  return fillInTheGaps(b4) if len(b4) == len(now) else merges(now)
+  return fillInTheGaps(sorted(b4,key=lambda x:x.lo)) \
+         if len(b4) == len(now) else merges(now)
 
 def merged(col1, col2):
   col12 = deepcopy(col1)
@@ -189,7 +192,10 @@ def merged(col1, col2):
 
 def fillInTheGaps(a):
   a[0].lo, a[-1].hi = -inf, inf
-  for i in ranges(len(a)-1): a[i].hi = a[i+1].lo
+  #print("")
+  #[print(">> ",x.lo, x.hi) for x in a]
+  for i in range(len(a)-1): a[i].hi = a[i+1].lo
+  #for x in a: print("<< ",x.lo, x.hi) 
   return a
 
 # def showBins(bins):
@@ -203,7 +209,7 @@ def fillInTheGaps(a):
 # def rules(bins,fun):
 #   best = 0
 #   for i in range(4): 
-#     some = bins[:i+1]
+#     some = bins[:i+1]))))
 #     _and = set.intersection
 #     _or  = set.union
 #     a    = {}
