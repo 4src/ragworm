@@ -17,7 +17,7 @@ doc: ## generate documentation
 	pdoc --html \
 	--config show_source_code=True \
 	--config sort_identifiers=False \
-	--force -o docs  --template-dir docs ragworm.py lib.py
+	--force -o docs  --template-dir docs test.py lib.py ragworm.py
 
 tests: ## run test suite
 	python3 -B tests.py -g .

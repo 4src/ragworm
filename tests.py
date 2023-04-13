@@ -57,4 +57,5 @@ def statd():
   return s1[a] > s2[a] and s1[m] >   s2[m] and s1[l] < s2[l] and \
          s0[a] > s2[a] and s0[m] >=  s2[m] and s0[l] < s2[l]
 
-sys.exit(runs(cli(the),egs))
+if __name__ == '__main__':
+  sys.exit(runs(cli(the),egs))
