@@ -14,9 +14,7 @@ install: ## load python3 packages (requires `pip3`)
 	(cd ..; git clone https://gist.github.com/42f78b8beec9e98434b55438f9983ecc.git config)
 
 doc: ## generate documentation
-	pdoc -o docs     \
-	     --show-source \
-		   --logo 'https://hetmanrecovery.com/pic/out/hetman_internet_spy_256x256.png' *.py
+	pdoc --html --force -o docs  --template-dir docs ragworm.py
 
 tests: ## run test suite
 	python3 -B tests.py -g .

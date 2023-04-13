@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>ragworm API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>ragworm</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python"># vim: set et sts=2 sw=2 ts=2 :
+from lib import *
+import math
+import random
+from copy import deepcopy
+from functools import cmp_to_key
+
+#------------------------------------------------ --------- --------- ----------
+the = BAG(cohen=.5, nums=256, bins=7, k=1, m=2, go=&#34;.&#34;,
+          min=.5, rest=3, file=&#34;../data/auto93.csv&#34;, seed=1234567891)
+#------------------------------------------------ --------- --------- ----------
+def SYM(c=0,s=&#34; &#34;):
+   return BAG(ako=SYM, at=c, txt=s, n=0, _has={},mode=None,most=0)
+
+def NUM(c=0,s=&#34; &#34;):
+  return BAG(ako=NUM, at=c, txt=s, n=0, _has=[], ok=False,
+              lo=inf, hi=-inf, w = -1 if s[-1]==&#34;-&#34; else 1)
+
+def COLS(words):
+  cols = BAG(ako=COLS, names=words, x=[], y=[], all=[], klass=None)
+  for c,s in enumerate(words):
+    col = (NUM if s[0].isupper() else SYM)(c,s)
+    cols.all += [col]
+    if s[-1] != &#34;X&#34;:
+      if s[-1]==&#34;!&#34;: klass=col
+      (cols.y if s[-1] in &#34;-+&#34; else cols.x).append(col)
+  return cols
+
+def DATA(src, rows=[]):
+  data = BAG(ako=DATA, cols=[], rows=[])
+  if type(src)==str:
+    [adds(data, ROW(a)) for a in csv(src)]
+  elif src.ako is DATA:
+    data.cols = COLS(src.cols.names)
+  [adds(data,row) for row in rows]
+  return data
+
+def ROW(a):
+  return BAG(ako=ROW, cells=a)
+
+def BIN():
+  return BAG(ako=BIN, rows=[], lo=inf, hi=-inf, ys=SYM())
+#------------------------------------------------ --------- --------- ----------
+def adds(data,row):
+  if data.cols:
+    data.rows += [row]
+    for col in data.cols.all: add(col,row.cells[col.at])
+  else:
+    data.cols = COLS(row.cells)
+
+def add(col,x,inc=1):
+  if x == &#34;?&#34;: return x
+  col.n += inc
+  if col.ako is SYM:
+    tmp = col._has[x] = col._has.get(x,0) + inc
+    if tmp &gt; col.most: col.most,col.mode = tmp,x
+  else:
+    col.lo = min(x, col.lo)
+    col.hi = max(x, col.hi)
+    reservoir_sampling(col, col._has, x)
+  return col
+
+def reservoir_sampling(col,a,x):
+  if len(a) &lt; the.nums      : col.ok=False; a += [x]
+  elif r() &lt; the.nums/col.n : col.ok=False; a[int(len(a)*r())] = x
+
+def ok(col):
+  if col.ako is NUM and not col.ok: 
+    col._has = sorted(col._has)
+    col.ok=True
+  return col
+
+def mid(col):
+  return col.mode if col.ako is SYM else median(ok(col)._has)
+
+def div(col):
+  return ent(col._has) if col.ako is SYM else stdev(ok(col)._has)
+
+def stats(data, cols=None, fun=mid):
+  tmp = {col.txt: fun(col) for col in (cols or data.cols.y)}
+  tmp[&#34;N&#34;] = len(data.rows)
+  return BAG(**tmp)
+
+def norm(num,x):
+  return x if x==&#34;?&#34; else (x - num.lo)/(num.hi - num.lo + 1/inf)
+#------------------------------------------------ --------- --------- ----------
+def better(data, row1, row2):
+  s1, s2, cols, n = 0, 0, data.cols.y, len(data.cols.y)
+  for col in cols:
+    a, b = norm(col,row1.cells[col.at]), norm(col,row2.cells[col.at])
+    s1  -= math.exp(col.w * (a - b) / n)
+    s2  -= math.exp(col.w * (b - a) / n)
+  return s1 / n &lt; s2 / n
+
+def betters(data, rows=None):
+  rows = sorted(rows or data.rows,
+               key = cmp_to_key(lambda r1,r2:better(data,r1,r2)))
+  cut = len(rows) - int(len(rows))**the.min
+  best,rest = [],[]
+  for i,row in enumerate(rows):
+    row.y = i &gt; cut
+    (best if i &gt; cut else rest).append(row)
+  return DATA(data,best), DATA(data,random.sample(rest, len(best)*the.rest))
+
+# def colv(data,row):
+#   if type(row) is dict:
+#     for k in row:
+#       yield data.cols.named[k], row[k]
+#   else:
+#     for col in data.cols.x:
+#       v = row.cells[col.at]
+#       if v != &#34;?&#34; : yield col, [v]
+#
+# def classify(datas, row):
+#   most, out, n = -inf, datas[0], sum(len(data.rows) for data in datas)
+#   for klass,,data in datas.items():
+#     prior = (len(data.rows) + the.k) / (n + the.k*len(datas))
+#     tmp   = math.log(prior)
+#     for col,vs in colv(data,row):
+#       f    = sum((col.has.get((klass, col.at, v),0) for v in vs))
+#       tmp += math.log((f + the.m*prior) / (col.n + the.m))
+#     if tmp &gt; most:
+#       most, out = tmp, data
+#   return klass,out,math.e**mostlike
+# #------------------------------------------------ --------- --------- ----------
+# def discretize(col,x)
+#   if x==&#34;?&#34; or col.ako == SYM: return x
+#   tmp = (col.hi - col.lo)/(the.bins - 1)
+#   return col.hi == col.lo and 1 or int(x/tmp + .5)*tmp
+
+def freqs(best, rest, also=lambda x:True):
+  out = {}
+  def remember(a,b,c,d): k-(a,b,c,d); out[k] = out.get(k,0) + 1; also((a,b,c))
+  for col in best.cols.x:
+    x = lambda row: row.cells[col.at]
+    rows  = [row for row in best.rows + rest.rows if x(row) != &#34;?&#34;]
+    if col.ako is NUM:
+      for bin in discretize(rows,x):
+        for row in bin.rows:
+          remember(row.y, col.at, bin.lo, bin.hi)
+    else:
+      for row in rows:
+        remember(row.y,col.at, x(row), x(row))
+  return out
+
+def discretize(rows,x):
+  rows  = sorted(rows,key=x)
+  eps   = stdev(rows, x) * the.cohen
+  small = int(len(rows) / the.bins)
+  bins += [BIN()]
+  for i,row in enumerate(rows):
+    now       = all[-1]
+    now.lo    = min(x(row),now.lo)
+    now.hi    = max(x(row),now.hi)
+    now.rows += [row]
+    add(now.ys, row.y)
+    if now.hi - now.lo &gt; eps and now.ys.n &gt; small and i &lt; len(rows) - small:
+      bins += [BIN()]
+  return merges(bins)
+
+def merges(b4):
+  i,now = 0,[]
+  while i &lt; len(b4):
+    one = b4[i]
+    if i &lt; len(b4) - 1:
+      two = b4[i+1]
+      if ys := merged(one.ys, two.ys):
+        one = BAG(rows=one.rows + two.rows, lo=one.lo, hi=two.hi, ys=ys)
+        i += 1
+    now += [one]
+    i += 1
+  return fillInTheGaps(b4) if len(b4) == len(now) else merges(now)
+
+def merged(col1, col2):
+  col12 = deepcopy(col1)
+  [add(col12,s,n) for s,n in col2._has.items()]
+  if div(col12) &lt;= (col1.n*div(col1) + col2.n*div(col2))/col12.n:
+    return col12
+
+def fillInTheGaps(a):
+  a[0].lo, a[-1].hi = -inf, inf
+  for i in ranges(len(a)-1): a[i].hi = a[i+1].lo
+  return a
+
+# def showBins(bins):
+#   tmp={}
+#   for b in bins:
+#     if b.txt not in tmp: tmp[b.txt] = []
+#     tmp[b.txt] += [(b.x.lo, b.x.hi)]
+#   return {k:sorted(v) for k,v in tmp.items()}
+#
+# #------------------------------------------------ --------- --------- ----------
+# def rules(bins,fun):
+#   best = 0
+#   for i in range(4): 
+#     some = bins[:i+1]
+#     _and = set.intersection
+#     _or  = set.union
+#     a    = {}
+#     for b in sorted(some, key=lambda b:b.at):
+#       s = set(b._rows)
+#       a[b.at] = _or(s, a[b.at]) if b.at in a else s
+#     a = _and(*map(set, a.values()))
+#     b,r = 0,0
+#     for row in a:
+#       b += (1 if row.y else 0)
+#       r += (0 if row.y else 1)
+#     now = fun(b,r)
+#     if now &gt; best:
+#       best = now
+#       print(BAG(score=f&#34;{now:.3f}&#34;,
+#                 best=b,rest=r,rule=showBins(some)))</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="ragworm.BIN"><code class="name flex">
+<span>def <span class="ident">BIN</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def BIN():
+  return BAG(ako=BIN, rows=[], lo=inf, hi=-inf, ys=SYM())</code></pre>
+</details>
+</dd>
+<dt id="ragworm.COLS"><code class="name flex">
+<span>def <span class="ident">COLS</span></span>(<span>words)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def COLS(words):
+  cols = BAG(ako=COLS, names=words, x=[], y=[], all=[], klass=None)
+  for c,s in enumerate(words):
+    col = (NUM if s[0].isupper() else SYM)(c,s)
+    cols.all += [col]
+    if s[-1] != &#34;X&#34;:
+      if s[-1]==&#34;!&#34;: klass=col
+      (cols.y if s[-1] in &#34;-+&#34; else cols.x).append(col)
+  return cols</code></pre>
+</details>
+</dd>
+<dt id="ragworm.DATA"><code class="name flex">
+<span>def <span class="ident">DATA</span></span>(<span>src, rows=[])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def DATA(src, rows=[]):
+  data = BAG(ako=DATA, cols=[], rows=[])
+  if type(src)==str:
+    [adds(data, ROW(a)) for a in csv(src)]
+  elif src.ako is DATA:
+    data.cols = COLS(src.cols.names)
+  [adds(data,row) for row in rows]
+  return data</code></pre>
+</details>
+</dd>
+<dt id="ragworm.NUM"><code class="name flex">
+<span>def <span class="ident">NUM</span></span>(<span>c=0, s=' ')</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def NUM(c=0,s=&#34; &#34;):
+  return BAG(ako=NUM, at=c, txt=s, n=0, _has=[], ok=False,
+              lo=inf, hi=-inf, w = -1 if s[-1]==&#34;-&#34; else 1)</code></pre>
+</details>
+</dd>
+<dt id="ragworm.ROW"><code class="name flex">
+<span>def <span class="ident">ROW</span></span>(<span>a)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ROW(a):
+  return BAG(ako=ROW, cells=a)</code></pre>
+</details>
+</dd>
+<dt id="ragworm.SYM"><code class="name flex">
+<span>def <span class="ident">SYM</span></span>(<span>c=0, s=' ')</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def SYM(c=0,s=&#34; &#34;):
+   return BAG(ako=SYM, at=c, txt=s, n=0, _has={},mode=None,most=0)</code></pre>
+</details>
+</dd>
+<dt id="ragworm.add"><code class="name flex">
+<span>def <span class="ident">add</span></span>(<span>col, x, inc=1)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add(col,x,inc=1):
+  if x == &#34;?&#34;: return x
+  col.n += inc
+  if col.ako is SYM:
+    tmp = col._has[x] = col._has.get(x,0) + inc
+    if tmp &gt; col.most: col.most,col.mode = tmp,x
+  else:
+    col.lo = min(x, col.lo)
+    col.hi = max(x, col.hi)
+    reservoir_sampling(col, col._has, x)
+  return col</code></pre>
+</details>
+</dd>
+<dt id="ragworm.adds"><code class="name flex">
+<span>def <span class="ident">adds</span></span>(<span>data, row)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def adds(data,row):
+  if data.cols:
+    data.rows += [row]
+    for col in data.cols.all: add(col,row.cells[col.at])
+  else:
+    data.cols = COLS(row.cells)</code></pre>
+</details>
+</dd>
+<dt id="ragworm.better"><code class="name flex">
+<span>def <span class="ident">better</span></span>(<span>data, row1, row2)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def better(data, row1, row2):
+  s1, s2, cols, n = 0, 0, data.cols.y, len(data.cols.y)
+  for col in cols:
+    a, b = norm(col,row1.cells[col.at]), norm(col,row2.cells[col.at])
+    s1  -= math.exp(col.w * (a - b) / n)
+    s2  -= math.exp(col.w * (b - a) / n)
+  return s1 / n &lt; s2 / n</code></pre>
+</details>
+</dd>
+<dt id="ragworm.betters"><code class="name flex">
+<span>def <span class="ident">betters</span></span>(<span>data, rows=None)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def betters(data, rows=None):
+  rows = sorted(rows or data.rows,
+               key = cmp_to_key(lambda r1,r2:better(data,r1,r2)))
+  cut = len(rows) - int(len(rows))**the.min
+  best,rest = [],[]
+  for i,row in enumerate(rows):
+    row.y = i &gt; cut
+    (best if i &gt; cut else rest).append(row)
+  return DATA(data,best), DATA(data,random.sample(rest, len(best)*the.rest))</code></pre>
+</details>
+</dd>
+<dt id="ragworm.discretize"><code class="name flex">
+<span>def <span class="ident">discretize</span></span>(<span>rows, x)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def discretize(rows,x):
+  rows  = sorted(rows,key=x)
+  eps   = stdev(rows, x) * the.cohen
+  small = int(len(rows) / the.bins)
+  bins += [BIN()]
+  for i,row in enumerate(rows):
+    now       = all[-1]
+    now.lo    = min(x(row),now.lo)
+    now.hi    = max(x(row),now.hi)
+    now.rows += [row]
+    add(now.ys, row.y)
+    if now.hi - now.lo &gt; eps and now.ys.n &gt; small and i &lt; len(rows) - small:
+      bins += [BIN()]
+  return merges(bins)</code></pre>
+</details>
+</dd>
+<dt id="ragworm.div"><code class="name flex">
+<span>def <span class="ident">div</span></span>(<span>col)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def div(col):
+  return ent(col._has) if col.ako is SYM else stdev(ok(col)._has)</code></pre>
+</details>
+</dd>
+<dt id="ragworm.fillInTheGaps"><code class="name flex">
+<span>def <span class="ident">fillInTheGaps</span></span>(<span>a)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fillInTheGaps(a):
+  a[0].lo, a[-1].hi = -inf, inf
+  for i in ranges(len(a)-1): a[i].hi = a[i+1].lo
+  return a</code></pre>
+</details>
+</dd>
+<dt id="ragworm.freqs"><code class="name flex">
+<span>def <span class="ident">freqs</span></span>(<span>best, rest, also=&lt;function &lt;lambda&gt;&gt;)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def freqs(best, rest, also=lambda x:True):
+  out = {}
+  def remember(a,b,c,d): k-(a,b,c,d); out[k] = out.get(k,0) + 1; also((a,b,c))
+  for col in best.cols.x:
+    x = lambda row: row.cells[col.at]
+    rows  = [row for row in best.rows + rest.rows if x(row) != &#34;?&#34;]
+    if col.ako is NUM:
+      for bin in discretize(rows,x):
+        for row in bin.rows:
+          remember(row.y, col.at, bin.lo, bin.hi)
+    else:
+      for row in rows:
+        remember(row.y,col.at, x(row), x(row))
+  return out</code></pre>
+</details>
+</dd>
+<dt id="ragworm.merged"><code class="name flex">
+<span>def <span class="ident">merged</span></span>(<span>col1, col2)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def merged(col1, col2):
+  col12 = deepcopy(col1)
+  [add(col12,s,n) for s,n in col2._has.items()]
+  if div(col12) &lt;= (col1.n*div(col1) + col2.n*div(col2))/col12.n:
+    return col12</code></pre>
+</details>
+</dd>
+<dt id="ragworm.merges"><code class="name flex">
+<span>def <span class="ident">merges</span></span>(<span>b4)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def merges(b4):
+  i,now = 0,[]
+  while i &lt; len(b4):
+    one = b4[i]
+    if i &lt; len(b4) - 1:
+      two = b4[i+1]
+      if ys := merged(one.ys, two.ys):
+        one = BAG(rows=one.rows + two.rows, lo=one.lo, hi=two.hi, ys=ys)
+        i += 1
+    now += [one]
+    i += 1
+  return fillInTheGaps(b4) if len(b4) == len(now) else merges(now)</code></pre>
+</details>
+</dd>
+<dt id="ragworm.mid"><code class="name flex">
+<span>def <span class="ident">mid</span></span>(<span>col)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mid(col):
+  return col.mode if col.ako is SYM else median(ok(col)._has)</code></pre>
+</details>
+</dd>
+<dt id="ragworm.norm"><code class="name flex">
+<span>def <span class="ident">norm</span></span>(<span>num, x)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def norm(num,x):
+  return x if x==&#34;?&#34; else (x - num.lo)/(num.hi - num.lo + 1/inf)</code></pre>
+</details>
+</dd>
+<dt id="ragworm.ok"><code class="name flex">
+<span>def <span class="ident">ok</span></span>(<span>col)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ok(col):
+  if col.ako is NUM and not col.ok: 
+    col._has = sorted(col._has)
+    col.ok=True
+  return col</code></pre>
+</details>
+</dd>
+<dt id="ragworm.r"><code class="name flex">
+<span>def <span class="ident">r</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>random() -&gt; x in the interval [0, 1).</p></div>
+</dd>
+<dt id="ragworm.reservoir_sampling"><code class="name flex">
+<span>def <span class="ident">reservoir_sampling</span></span>(<span>col, a, x)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reservoir_sampling(col,a,x):
+  if len(a) &lt; the.nums      : col.ok=False; a += [x]
+  elif r() &lt; the.nums/col.n : col.ok=False; a[int(len(a)*r())] = x</code></pre>
+</details>
+</dd>
+<dt id="ragworm.stats"><code class="name flex">
+<span>def <span class="ident">stats</span></span>(<span>data, cols=None, fun=&lt;function mid&gt;)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def stats(data, cols=None, fun=mid):
+  tmp = {col.txt: fun(col) for col in (cols or data.cols.y)}
+  tmp[&#34;N&#34;] = len(data.rows)
+  return BAG(**tmp)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<center>
+<img src="https://render.fineartamerica.com/images/rendered/default/acrylic-print/6.5/10/hangingwire/break/images-medium-5/ragworm-specimen-ucl-grant-museum-of-zoology.jpg"
+width="250"><br>
+<p>&copy; 2023, Tim Menzies<br>
+<a href="mailto:timm@ieee.org">timm@ieee.org</a><br>
+<a href="http://timm.github.io">http://timm.github.io</a>
+</p>
+<p>
+The smallest brain I can imagine.
+</p>
+<p>
+<img src="https://img.shields.io/badge/purpose-ai%20,%20se-blueviolet">
+<a href="https://github.com/timm/bnbad/blob/master/LICENSE.md"><img
+alt="License" src="https://img.shields.io/badge/license-bsd2-red"></a> <img alt="Python" src="https://img.shields.io/badge/python-v3.11-blue">
+<br>
+<a href="https://github.com/4src/ragworm/blob/master/README.md"> <img
+src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width=75></a>
+</p>
+</center>
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="ragworm.BIN" href="#ragworm.BIN">BIN</a></code></li>
+<li><code><a title="ragworm.COLS" href="#ragworm.COLS">COLS</a></code></li>
+<li><code><a title="ragworm.DATA" href="#ragworm.DATA">DATA</a></code></li>
+<li><code><a title="ragworm.NUM" href="#ragworm.NUM">NUM</a></code></li>
+<li><code><a title="ragworm.ROW" href="#ragworm.ROW">ROW</a></code></li>
+<li><code><a title="ragworm.SYM" href="#ragworm.SYM">SYM</a></code></li>
+<li><code><a title="ragworm.add" href="#ragworm.add">add</a></code></li>
+<li><code><a title="ragworm.adds" href="#ragworm.adds">adds</a></code></li>
+<li><code><a title="ragworm.better" href="#ragworm.better">better</a></code></li>
+<li><code><a title="ragworm.betters" href="#ragworm.betters">betters</a></code></li>
+<li><code><a title="ragworm.discretize" href="#ragworm.discretize">discretize</a></code></li>
+<li><code><a title="ragworm.div" href="#ragworm.div">div</a></code></li>
+<li><code><a title="ragworm.fillInTheGaps" href="#ragworm.fillInTheGaps">fillInTheGaps</a></code></li>
+<li><code><a title="ragworm.freqs" href="#ragworm.freqs">freqs</a></code></li>
+<li><code><a title="ragworm.merged" href="#ragworm.merged">merged</a></code></li>
+<li><code><a title="ragworm.merges" href="#ragworm.merges">merges</a></code></li>
+<li><code><a title="ragworm.mid" href="#ragworm.mid">mid</a></code></li>
+<li><code><a title="ragworm.norm" href="#ragworm.norm">norm</a></code></li>
+<li><code><a title="ragworm.ok" href="#ragworm.ok">ok</a></code></li>
+<li><code><a title="ragworm.r" href="#ragworm.r">r</a></code></li>
+<li><code><a title="ragworm.reservoir_sampling" href="#ragworm.reservoir_sampling">reservoir_sampling</a></code></li>
+<li><code><a title="ragworm.stats" href="#ragworm.stats">stats</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

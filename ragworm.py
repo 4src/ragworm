@@ -39,7 +39,7 @@ def ROW(a):
   return BAG(ako=ROW, cells=a)
 
 def BIN():
-  return BAG(ako=BIN, rows=[], lo=inf, hi=-inf, ys=SYM()))
+  return BAG(ako=BIN, rows=[], lo=inf, hi=-inf, ys=SYM())
 #------------------------------------------------ --------- --------- ----------
 def adds(data,row):
   if data.cols:
@@ -130,17 +130,17 @@ def betters(data, rows=None):
 
 def freqs(best, rest, also=lambda x:True):
   out = {}
-  def remember(k): out[k] = out.get(k,0) + 1; also(k)
+  def remember(a,b,c,d): k-(a,b,c,d); out[k] = out.get(k,0) + 1; also((a,b,c))
   for col in best.cols.x:
     x = lambda row: row.cells[col.at]
     rows  = [row for row in best.rows + rest.rows if x(row) != "?"]
     if col.ako is NUM:
-      for bin in discretize(rows,x)
+      for bin in discretize(rows,x):
         for row in bin.rows:
-          remember((row.y, col.at, bin.lo, bin.hi))
+          remember(row.y, col.at, bin.lo, bin.hi)
     else:
       for row in rows:
-        remember((row.y,col.at, x(row), x(row)))
+        remember(row.y,col.at, x(row), x(row))
   return out
 
 def discretize(rows,x):
