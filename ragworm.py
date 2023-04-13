@@ -18,14 +18,14 @@ from copy import deepcopy
 from functools import cmp_to_key
 
 #------------------------------------------------ --------- --------- ----------
-the = BAG(cohen=.5, nums=256, bins=7, k=1, m=2, go=".",
+the = BAG(cohen=.5, some=256, bins=7, k=1, m=2, go=".",
           min=.5, rest=3, file="../data/auto93.csv", seed=1234567891)
 #------------------------------------------------ --------- --------- ----------
 def SYM(c=0,s=" "):
    return BAG(ako=SYM, at=c, txt=s, n=0, _has={},mode=None,most=0)
 
 def NUM(c=0,s=" "):
-  return BAG(ako=NUM, at=c, txt=s, n=0, _has=[], ok=False,
+  return BAG(ako=NUM, at=c, txt=s, n=0, _has=[], sorted=False,
               lo=inf, hi=-inf, w = -1 if s[-1]=="-" else 1)
 
 def COLS(words):
@@ -69,17 +69,15 @@ def add(col,x,inc=1):
   else:
     col.lo = min(x, col.lo)
     col.hi = max(x, col.hi)
-    keepSome(col, col._has, x)
+    a = col._has
+    if   len(a) < the.some    : col.sorted=False; a += [x]
+    elif r() < the.some/col.n : col.sorted=False; a[int(len(a)*r())] = x
   return col
 
-def keepSome(col,a,x):
-  if len(a) < the.nums      : col.ok=False; a += [x]
-  elif r() < the.nums/col.n : col.ok=False; a[int(len(a)*r())] = x
-
 def ok(col):
-  if col.ako is NUM and not col.ok: 
+  if col.ako is NUM and not col.sorted: 
     col._has = sorted(col._has)
-    col.ok=True
+    col.sorted=True
   return col
 
 def mid(col):
