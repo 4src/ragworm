@@ -30,6 +30,7 @@
 <h2 id="options">Options</h2>
 <p>-h &ndash;help
 show help = True
+<br>
 -h &ndash;help
 show help = True</p>
 <details class="source">
@@ -45,8 +46,8 @@ USAGE: python3 -B tests.py [OPTIONS] [-g ACTION]
 
 OPTIONS:
 
-        -h --help  show help = True
-        -h --help  show help = True
+  -h --help  show help = True    
+  -h --help  show help = True
 
 &#34;&#34;&#34;
 from lib import *
@@ -107,10 +108,10 @@ def add(col,x,inc=1):
   else:
     col.lo = min(x, col.lo)
     col.hi = max(x, col.hi)
-    reservoir_sampling(col, col._has, x)
+    keepSome(col, col._has, x)
   return col
 
-def reservoir_sampling(col,a,x):
+def keepSome(col,a,x):
   if len(a) &lt; the.nums      : col.ok=False; a += [x]
   elif r() &lt; the.nums/col.n : col.ok=False; a[int(len(a)*r())] = x
 
@@ -402,12 +403,12 @@ def fillInTheGaps(a):
   else:
     col.lo = min(x, col.lo)
     col.hi = max(x, col.hi)
-    reservoir_sampling(col, col._has, x)
+    keepSome(col, col._has, x)
   return col</code></pre>
 </details>
 </dd>
-<dt id="ragworm.reservoir_sampling"><code class="name flex">
-<span>def <span class="ident">reservoir_sampling</span></span>(<span>col, a, x)</span>
+<dt id="ragworm.keepSome"><code class="name flex">
+<span>def <span class="ident">keepSome</span></span>(<span>col, a, x)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -415,7 +416,7 @@ def fillInTheGaps(a):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def reservoir_sampling(col,a,x):
+<pre><code class="python">def keepSome(col,a,x):
   if len(a) &lt; the.nums      : col.ok=False; a += [x]
   elif r() &lt; the.nums/col.n : col.ok=False; a[int(len(a)*r())] = x</code></pre>
 </details>
@@ -673,7 +674,7 @@ src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" 
 <li><code><a title="ragworm.BIN" href="#ragworm.BIN">BIN</a></code></li>
 <li><code><a title="ragworm.adds" href="#ragworm.adds">adds</a></code></li>
 <li><code><a title="ragworm.add" href="#ragworm.add">add</a></code></li>
-<li><code><a title="ragworm.reservoir_sampling" href="#ragworm.reservoir_sampling">reservoir_sampling</a></code></li>
+<li><code><a title="ragworm.keepSome" href="#ragworm.keepSome">keepSome</a></code></li>
 <li><code><a title="ragworm.ok" href="#ragworm.ok">ok</a></code></li>
 <li><code><a title="ragworm.mid" href="#ragworm.mid">mid</a></code></li>
 <li><code><a title="ragworm.div" href="#ragworm.div">div</a></code></li>

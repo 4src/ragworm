@@ -7,7 +7,7 @@ USAGE: python3 -B tests.py [OPTIONS] [-g ACTION]
 
 OPTIONS:
 
-  -h --help  show help = True
+  -h --help  show help = True    
   -h --help  show help = True
 
 """
