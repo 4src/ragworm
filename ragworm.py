@@ -3,22 +3,26 @@
 ragworm.py : the smallest brain I can imagine    
 (c) 2023 Tim Menzies <timm@ieee.og> BSD-2
 
-USAGE: python3 -B tests.py [OPTIONS] [-g ACTION]
+USAGE:    
+  python3 -B tests.py [OPTIONS] [-g ACTION]   
 
-OPTIONS:
+OPTIONS:  
 
-  -h --help  show help = True    
-  -h --help  show help = True
+  -b --bins   default number of bins                       = 16  
+  -c --cohen  cohen's delta                                = .5  
+  -f --file   data file                                    = ../data/auto93.csv  
+  -g --go     start up action                              = nothing  
+  -h --help   show help                                    = False  
+  -k --k      Naive Bayes, low class frequency control     = 1  
+  -m --m      Naive Bayes, low attribute frequency control = 2  
+  -M --Min    recursion stops at N**M                      = .5  
+  -r --rest   look at rest*|best| items                    = 3  
+  -s --seed   random number seed                           = 1234567891   
+  -S --Some   keep at least this number of numbers         = 256
 
 """
-import math
-import random
-from copy import deepcopy
-from functools import cmp_to_key
 from lib import *
-#------------------------------------------------ --------- --------- ----------
-the = BAG(cohen=.5, some=256, bins=7, k=1, m=2, go=".",
-          min=.5, rest=3, file="../data/auto93.csv", seed=1234567891)
+the=settings(__doc__)
 #------------------------------------------------ --------- --------- ----------
 def SYM(c=0,s=" "):
   "summarize stream of symbols"
@@ -72,8 +76,8 @@ def add(col,x,inc=1):
     col.lo = min(x, col.lo)
     col.hi = max(x, col.hi)
     a = col._has
-    if   len(a) < the.some    : col.sorted=False; a += [x]
-    elif r() < the.some/col.n : col.sorted=False; a[int(len(a)*r())] = x
+    if   len(a) < the.Some    : col.sorted=False; a += [x]
+    elif r() < the.Some/col.n : col.sorted=False; a[int(len(a)*r())] = x
   return col
 
 def ok(col):
@@ -107,7 +111,7 @@ def better(data, row1, row2):
 def betters(data, rows=None):
   rows = sorted(rows or data.rows,
                key = cmp_to_key(lambda r1,r2:better(data,r1,r2)))
-  cut = len(rows) - int(len(rows))**the.min
+  cut = len(rows) - int(len(rows))**the.Min
   best,rest = [],[]
   for i,row in enumerate(rows):
     row.y = i > cut

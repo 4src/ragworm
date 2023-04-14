@@ -24,7 +24,7 @@ def lohid():
 @eg
 def cache():
   "keep some nums"
-  the.some=16
+  the.Some=16
   num = NUM()
   [add(num,x) for x in range(10**4)]
   has = ok(num)._has
@@ -35,7 +35,8 @@ def numd():
   "collect numeric stats"
   num = NUM()
   [add(num,r()) for x in range(10**4)]
-  return the.some==256 and .28 < div(num) < .32 and .46 < mid(num) < .54
+  print(the.Some)
+  return the.Some==256 and .28 < div(num) < .32 and .46 < mid(num) < .54
 
 @eg
 def symd():
@@ -65,7 +66,5 @@ def bins():
   s = set()
   freqs(best,rest,also=lambda cl,lo,hi: print(cl,lo,hi))
   #for (cl,lo,hi) in sorted([s1 for s1 in s]): print(data0.cols.all[cl].txt,lo,hi)
-
-
 
 if __name__ == '__main__': runs(the,egs)

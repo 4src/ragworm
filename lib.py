@@ -8,6 +8,8 @@ import traceback
 from copy import deepcopy
 from pyfiglet import Figlet
 from termcolor import colored
+from copy import deepcopy
+from functools import cmp_to_key
 
 seed = random.seed
 r    = random.random
@@ -60,6 +62,15 @@ def coerce(x):
   try: return ast.literal_eval(x)
   except: return x
 
+def settings(help, update=False):
+  "Parses help string for lines with flags (on left) and defaults (on right)"
+  d={}
+  for m in re.finditer(r"\n\s*-\w+\s*--(\w+)[^=]*=\s*(\S+)",help):
+    k,v = m[1], m[2]
+    d[k] = coerce(v)
+  d["_help"] = help
+  return BAG(**d)
+
 def cli(d):
   for k,v in d.items():
     v=str(v)
@@ -71,6 +82,7 @@ def cli(d):
 #------------------------------------------------ --------- --------- ----------
 def runs(the,funs):
   the=cli(the)
+  if the.help:  return yell(the._help,"yellow")
   print(figfont("tests","ogre"),end="")
   n = sum((run(fun,the) for fun in funs if re.match("^"+the.go, fun.__name__)))
   yell(f"{n} FAILURE(S)\n","red") if n>0 else yell("ALL PASSED\n","green")

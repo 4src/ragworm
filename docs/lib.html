@@ -36,6 +36,8 @@ import traceback
 from copy import deepcopy
 from pyfiglet import Figlet
 from termcolor import colored
+from copy import deepcopy
+from functools import cmp_to_key
 
 seed = random.seed
 r    = random.random
@@ -87,6 +89,14 @@ def coerce(x):
   if x==&#34;?&#34;: return x
   try: return ast.literal_eval(x)
   except: return x
+
+def settings(help:str,update=False):
+  &#34;Parses help string for lines with flags (on left) and defaults (on right)&#34;
+  d={}
+  for m in re.finditer(r&#34;\n\s*-\w+\s*--(\w+)[^=]*=\s*(\S+)&#34;,help):
+    k,v = m[1], m[2]
+    d[k] = coerce(v)
+  return BAG(**d)
 
 def cli(d):
   for k,v in d.items():
@@ -271,6 +281,24 @@ def run(fun, settings):
   except: return x</code></pre>
 </details>
 </dd>
+<dt id="lib.settings"><code class="name flex">
+<span>def <span class="ident">settings</span></span>(<span>help: str, update=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parses help string for lines with flags (on left) and defaults (on right)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def settings(help:str,update=False):
+  &#34;Parses help string for lines with flags (on left) and defaults (on right)&#34;
+  d={}
+  for m in re.finditer(r&#34;\n\s*-\w+\s*--(\w+)[^=]*=\s*(\S+)&#34;,help):
+    k,v = m[1], m[2]
+    d[k] = coerce(v)
+  return BAG(**d)</code></pre>
+</details>
+</dd>
 <dt id="lib.cli"><code class="name flex">
 <span>def <span class="ident">cli</span></span>(<span>d)</span>
 </code></dt>
@@ -408,6 +436,7 @@ src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" 
 <li><code><a title="lib.ent" href="#lib.ent">ent</a></code></li>
 <li><code><a title="lib.csv" href="#lib.csv">csv</a></code></li>
 <li><code><a title="lib.coerce" href="#lib.coerce">coerce</a></code></li>
+<li><code><a title="lib.settings" href="#lib.settings">settings</a></code></li>
 <li><code><a title="lib.cli" href="#lib.cli">cli</a></code></li>
 <li><code><a title="lib.runs" href="#lib.runs">runs</a></code></li>
 <li><code><a title="lib.run" href="#lib.run">run</a></code></li>
