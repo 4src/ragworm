@@ -42,7 +42,7 @@ def numd():
   "collect numeric stats"
   num = NUM()
   [add(num,r()) for x in range(10**4)]
-  print(the.Some)
+  print(the.Some,end= " ")
   return the.Some==256 and .28 < div(num) < .32 and .46 < mid(num) < .54
 
 @eg
@@ -72,10 +72,12 @@ def bins():
   best,rest = betters(data0)
   s = set()
   freqs(best,rest,also=lambda cl,lo,hi: s.add((cl,lo,hi)))
-  print(len(sorted(list(s))))
+  b4=None
   for (cl,lo,hi) in sorted([s1 for s1 in s]): 
+     if cl != b4: print("")
      print(cl,data0.cols.all[cl].txt,
            "-inf" if lo==ninf else lo,
-           "inf" if hi==inf else hi)
+           "inf"  if hi==inf else hi)
+     b4 = cl
 
 if __name__ == '__main__': runs(the,egs)

@@ -89,9 +89,12 @@ def powerset(s):
 def runs(the,funs):
   the=cli(the)
   if the.help:  return yell(the._help,"yellow")
-  print(figfont("tests","ogre"),end="")
-  n = sum((run(fun,the) for fun in funs if re.match("^"+the.go, fun.__name__)))
-  yell(f"{n} FAILURE(S)\n","red") if n>0 else yell("ALL PASSED\n","green")
+  funs = [fun for fun in funs if re.match("^"+the.go, fun.__name__)]
+  if len(funs) > 1:
+    print(figfont("tests","ogre"),end="")
+  n = sum([run(fun,the) for fun in funs])
+  if len(funs) > 1:
+    yell(f"{n} FAILURE(S)\n","red") if n>0 else yell("ALL PASSED\n","green")
   sys.exit(n)
 
 def run(fun, settings):
