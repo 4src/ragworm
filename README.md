@@ -7,4 +7,4 @@ src="https://img.shields.io/badge/platform-osx,linux-pink">
 
 # Ragworm
 
-The AI with the smallest brain
+The AI with the smallest brain.
