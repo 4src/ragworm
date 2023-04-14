@@ -14,10 +14,11 @@ install: ## load python3 packages (requires `pip3`)
 	(cd ..; git clone https://gist.github.com/42f78b8beec9e98434b55438f9983ecc.git config)
 
 doc: ## generate documentation
-	pdoc --html \
-	--config show_source_code=True \
-	--config sort_identifiers=False \
-	--force -o docs  --template-dir docs test.py lib.py ragworm.py
+	pdoc --html                     \
+	--config show_source_code=True    \
+	--config sort_identifiers=False     \
+	--force -o docs --template-dir docs  \
+	tests.py lib.py ragworm.py
 
 tests: ## run test suite
 	python3 -B tests.py -g .

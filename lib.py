@@ -8,12 +8,14 @@ import traceback
 from copy import deepcopy
 from pyfiglet import Figlet
 from termcolor import colored
+from copy import deepcopy
+from functools import cmp_to_key
 
 seed = random.seed
 r    = random.random
 
 inf  = sys.maxsize / 2
-ninf = -inf - 1
+ninf = -inf + 1
 #------------------------------------------------ --------- --------- ----------
 def figfont(txt,font):
   return Figlet(font=font).renderText(txt)
@@ -60,6 +62,15 @@ def coerce(x):
   try: return ast.literal_eval(x)
   except: return x
 
+def settings(help, update=False):
+  "Parses help string for lines with flags (on left) and defaults (on right)"
+  d={}
+  for m in re.finditer(r"\n\s*-\w+\s*--(\w+)[^=]*=\s*(\S+)",help):
+    k,v = m[1], m[2]
+    d[k] = coerce(v)
+  d["_help"] = help
+  return BAG(**d)
+
 def cli(d):
   for k,v in d.items():
     v=str(v)
@@ -69,12 +80,22 @@ def cli(d):
       d[k] = coerce(v)
   return d
 #------------------------------------------------ --------- --------- ----------
+def powerset(s):
+  x = len(s)
+  for i in range(1 << x):
+     if tmp :=  [s[j] for j in range(x) if (i & (1 << j))]:
+         yield tmp
+#------------------------------------------------ --------- --------- ----------
 def runs(the,funs):
-  print(figfont("tests","ogre"),end="")
-  n = sum((run(fun,the) for fun in funs if re.match("^"+the.go, fun.__name__)))
-  yell(f"{n} FAILURE(S)\n","red") if n>0 else yell("ALL PASSED\n","green")
-  print(n)
-  return n
+  the=cli(the)
+  if the.help:  return yell(the._help,"yellow")
+  funs = [fun for fun in funs if re.match("^"+the.go, fun.__name__)]
+  if len(funs) > 1:
+    print(figfont("tests","ogre"),end="")
+  n = sum([run(fun,the) for fun in funs])
+  if len(funs) > 1:
+    yell(f"{n} FAILURE(S)\n","red") if n>0 else yell("ALL PASSED\n","green")
+  sys.exit(n)
 
 def run(fun, settings):
   fail, cache = False, {k:settings[k] for k in settings}

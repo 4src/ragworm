@@ -10,6 +10,13 @@ def thed():
   print(str(the)[:30],"... ",end="")
 
 @eg
+def power():
+  "powerset"
+  print([x for x in powerset([1,2,3])],end=" ")
+  return 2**3 -1 == len([x for x in powerset([1,2,3])])
+
+
+@eg
 def csvd():
   "read csv"
   return 3192==sum((len(a) for a in csv(the.file)))
@@ -24,7 +31,7 @@ def lohid():
 @eg
 def cache():
   "keep some nums"
-  the.nums=16
+  the.Some=16
   num = NUM()
   [add(num,x) for x in range(10**4)]
   has = ok(num)._has
@@ -35,7 +42,8 @@ def numd():
   "collect numeric stats"
   num = NUM()
   [add(num,r()) for x in range(10**4)]
-  return the.nums==256 and .28 < div(num) < .32 and .46 < mid(num) < .54
+  print(the.Some,end= " ")
+  return the.Some==256 and .28 < div(num) < .32 and .46 < mid(num) < .54
 
 @eg
 def symd():
@@ -53,9 +61,23 @@ def statd():
   s1 = stats(data1)
   s2 = stats(data2)
   a,l,m="Acc+", "Lbs-", "Mpg+"
-  print(s2[m],s0[m],s1[m])
+  print(s2[m],s0[m],s1[m],end=" ")
   return s1[a] > s2[a] and s1[m] >   s2[m] and s1[l] < s2[l] and \
          s0[a] > s2[a] and s0[m] >=  s2[m] and s0[l] < s2[l]
 
-if __name__ == '__main__':
-  sys.exit(runs(cli(the),egs))
+@eg
+def bins():
+  "collect stats from data"
+  data0 = DATA("../data/auto93.csv")
+  best,rest = betters(data0)
+  s = set()
+  freqs(best,rest,also=lambda cl,lo,hi: s.add((cl,lo,hi)))
+  b4=None
+  for (cl,lo,hi) in sorted([s1 for s1 in s]): 
+     if cl != b4: print("")
+     print(cl,data0.cols.all[cl].txt,
+           "-inf" if lo==ninf else lo,
+           "inf"  if hi==inf else hi)
+     b4 = cl
+
+if __name__ == '__main__': runs(the,egs)
