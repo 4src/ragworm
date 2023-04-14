@@ -64,7 +64,8 @@ def bins():
   data0 = DATA("../data/auto93.csv")
   best,rest = betters(data0)
   s = set()
-  freqs(best,rest,also=lambda cl,lo,hi: print(cl,lo,hi))
-  #for (cl,lo,hi) in sorted([s1 for s1 in s]): print(data0.cols.all[cl].txt,lo,hi)
+  freqs(best,rest,also=lambda cl,lo,hi: s.add((cl,lo,hi))
+  for (cl,lo,hi) in sorted([s1 for s1 in s]): 
+        print(data0.cols.all[cl].txt,lo,hi)
 
 if __name__ == '__main__': runs(the,egs)
