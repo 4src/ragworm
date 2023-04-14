@@ -72,7 +72,7 @@ def bins():
   best,rest = betters(data0)
   s = set()
   freqs(best,rest,also=lambda cl,lo,hi: s.add((cl,lo,hi)))
-  print(sorted(list(s)))
+  print(len(sorted(list(s))))
   for (cl,lo,hi) in sorted([s1 for s1 in s]): 
      print(cl,data0.cols.all[cl].txt,
            "-inf" if lo==ninf else lo,

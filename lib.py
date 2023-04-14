@@ -85,7 +85,6 @@ def powerset(s):
   for i in range(1 << x):
      if tmp :=  [s[j] for j in range(x) if (i & (1 << j))]:
          yield tmp
-
 #------------------------------------------------ --------- --------- ----------
 def runs(the,funs):
   the=cli(the)
