@@ -140,10 +140,6 @@ def betters(data, rows=None):
 #   tmp = (col.hi - col.lo)/(the.bins - 1)
 #   return col.hi == col.lo and 1 or int(x/tmp + .5)*tmp
 
-# # asdas
-# asdasd
-# asdass
-
 def freqs(best, rest, also=lambda *_:True):
   out = {}
   def remember(y,col,lo,hi): k=(y,col,lo,hi); out[k]=out.get(k,0)+1; also(col,lo,hi)
