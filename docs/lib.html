@@ -41,7 +41,7 @@ seed = random.seed
 r    = random.random
 
 inf  = sys.maxsize / 2
-ninf = -inf - 1
+ninf = -inf + 1
 #------------------------------------------------ --------- --------- ----------
 def figfont(txt,font):
   return Figlet(font=font).renderText(txt)
@@ -98,11 +98,11 @@ def cli(d):
   return d
 #------------------------------------------------ --------- --------- ----------
 def runs(the,funs):
+  the=cli(the)
   print(figfont(&#34;tests&#34;,&#34;ogre&#34;),end=&#34;&#34;)
   n = sum((run(fun,the) for fun in funs if re.match(&#34;^&#34;+the.go, fun.__name__)))
   yell(f&#34;{n} FAILURE(S)\n&#34;,&#34;red&#34;) if n&gt;0 else yell(&#34;ALL PASSED\n&#34;,&#34;green&#34;)
-  print(n)
-  return n
+  sys.exit(n)
 
 def run(fun, settings):
   fail, cache = False, {k:settings[k] for k in settings}
@@ -300,11 +300,11 @@ def run(fun, settings):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def runs(the,funs):
+  the=cli(the)
   print(figfont(&#34;tests&#34;,&#34;ogre&#34;),end=&#34;&#34;)
   n = sum((run(fun,the) for fun in funs if re.match(&#34;^&#34;+the.go, fun.__name__)))
   yell(f&#34;{n} FAILURE(S)\n&#34;,&#34;red&#34;) if n&gt;0 else yell(&#34;ALL PASSED\n&#34;,&#34;green&#34;)
-  print(n)
-  return n</code></pre>
+  sys.exit(n)</code></pre>
 </details>
 </dd>
 <dt id="lib.run"><code class="name flex">

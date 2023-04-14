@@ -52,7 +52,7 @@ def lohid():
 @eg
 def cache():
   &#34;keep some nums&#34;
-  the.nums=16
+  the.some=16
   num = NUM()
   [add(num,x) for x in range(10**4)]
   has = ok(num)._has
@@ -63,7 +63,7 @@ def numd():
   &#34;collect numeric stats&#34;
   num = NUM()
   [add(num,r()) for x in range(10**4)]
-  return the.nums==256 and .28 &lt; div(num) &lt; .32 and .46 &lt; mid(num) &lt; .54
+  return the.some==256 and .28 &lt; div(num) &lt; .32 and .46 &lt; mid(num) &lt; .54
 
 @eg
 def symd():
@@ -81,12 +81,22 @@ def statd():
   s1 = stats(data1)
   s2 = stats(data2)
   a,l,m=&#34;Acc+&#34;, &#34;Lbs-&#34;, &#34;Mpg+&#34;
-  print(s2[m],s0[m],s1[m])
+  print(s2[m],s0[m],s1[m],end=&#34; &#34;)
   return s1[a] &gt; s2[a] and s1[m] &gt;   s2[m] and s1[l] &lt; s2[l] and \
          s0[a] &gt; s2[a] and s0[m] &gt;=  s2[m] and s0[l] &lt; s2[l]
 
-if __name__ == &#39;__main__&#39;:
-  sys.exit(runs(cli(the),egs))</code></pre>
+@eg
+def bins():
+  &#34;collect stats from data&#34;
+  data0 = DATA(&#34;../data/auto93.csv&#34;)
+  best,rest = betters(data0)
+  s = set()
+  freqs(best,rest,also=lambda cl,lo,hi: print(cl,lo,hi))
+  #for (cl,lo,hi) in sorted([s1 for s1 in s]): print(data0.cols.all[cl].txt,lo,hi)
+
+
+
+if __name__ == &#39;__main__&#39;: runs(the,egs)</code></pre>
 </details>
 </section>
 <section>
@@ -173,7 +183,7 @@ def lohid():
 <pre><code class="python">@eg
 def cache():
   &#34;keep some nums&#34;
-  the.nums=16
+  the.some=16
   num = NUM()
   [add(num,x) for x in range(10**4)]
   has = ok(num)._has
@@ -194,7 +204,7 @@ def numd():
   &#34;collect numeric stats&#34;
   num = NUM()
   [add(num,r()) for x in range(10**4)]
-  return the.nums==256 and .28 &lt; div(num) &lt; .32 and .46 &lt; mid(num) &lt; .54</code></pre>
+  return the.some==256 and .28 &lt; div(num) &lt; .32 and .46 &lt; mid(num) &lt; .54</code></pre>
 </details>
 </dd>
 <dt id="tests.symd"><code class="name flex">
@@ -232,9 +242,28 @@ def statd():
   s1 = stats(data1)
   s2 = stats(data2)
   a,l,m=&#34;Acc+&#34;, &#34;Lbs-&#34;, &#34;Mpg+&#34;
-  print(s2[m],s0[m],s1[m])
+  print(s2[m],s0[m],s1[m],end=&#34; &#34;)
   return s1[a] &gt; s2[a] and s1[m] &gt;   s2[m] and s1[l] &lt; s2[l] and \
          s0[a] &gt; s2[a] and s0[m] &gt;=  s2[m] and s0[l] &lt; s2[l]</code></pre>
+</details>
+</dd>
+<dt id="tests.bins"><code class="name flex">
+<span>def <span class="ident">bins</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>collect stats from data</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@eg
+def bins():
+  &#34;collect stats from data&#34;
+  data0 = DATA(&#34;../data/auto93.csv&#34;)
+  best,rest = betters(data0)
+  s = set()
+  freqs(best,rest,also=lambda cl,lo,hi: print(cl,lo,hi))
+  #for (cl,lo,hi) in sorted([s1 for s1 in s]): print(data0.cols.all[cl].txt,lo,hi)</code></pre>
 </details>
 </dd>
 </dl>
@@ -278,6 +307,7 @@ src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" 
 <li><code><a title="tests.numd" href="#tests.numd">numd</a></code></li>
 <li><code><a title="tests.symd" href="#tests.symd">symd</a></code></li>
 <li><code><a title="tests.statd" href="#tests.statd">statd</a></code></li>
+<li><code><a title="tests.bins" href="#tests.bins">bins</a></code></li>
 </ul>
 </li>
 </ul>

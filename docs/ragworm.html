@@ -50,24 +50,26 @@ OPTIONS:
   -h --help  show help = True
 
 &#34;&#34;&#34;
-from lib import *
 import math
 import random
 from copy import deepcopy
 from functools import cmp_to_key
-
+from lib import *
 #------------------------------------------------ --------- --------- ----------
-the = BAG(cohen=.5, nums=256, bins=7, k=1, m=2, go=&#34;.&#34;,
+the = BAG(cohen=.5, some=256, bins=7, k=1, m=2, go=&#34;.&#34;,
           min=.5, rest=3, file=&#34;../data/auto93.csv&#34;, seed=1234567891)
 #------------------------------------------------ --------- --------- ----------
 def SYM(c=0,s=&#34; &#34;):
-   return BAG(ako=SYM, at=c, txt=s, n=0, _has={},mode=None,most=0)
+  &#34;summarize stream of symbols&#34;
+  return BAG(ako=SYM, at=c, txt=s, n=0, _has={},mode=None,most=0)
 
 def NUM(c=0,s=&#34; &#34;):
-  return BAG(ako=NUM, at=c, txt=s, n=0, _has=[], ok=False,
+  &#34;summarize stream of numbers&#34;
+  return BAG(ako=NUM, at=c, txt=s, n=0, _has=[], sorted=False,
               lo=inf, hi=-inf, w = -1 if s[-1]==&#34;-&#34; else 1)
 
 def COLS(words):
+  &#34;factory for generating summary objects&#34;
   cols = BAG(ako=COLS, names=words, x=[], y=[], all=[], klass=None)
   for c,s in enumerate(words):
     col = (NUM if s[0].isupper() else SYM)(c,s)
@@ -108,17 +110,15 @@ def add(col,x,inc=1):
   else:
     col.lo = min(x, col.lo)
     col.hi = max(x, col.hi)
-    keepSome(col, col._has, x)
+    a = col._has
+    if   len(a) &lt; the.some    : col.sorted=False; a += [x]
+    elif r() &lt; the.some/col.n : col.sorted=False; a[int(len(a)*r())] = x
   return col
 
-def keepSome(col,a,x):
-  if len(a) &lt; the.nums      : col.ok=False; a += [x]
-  elif r() &lt; the.nums/col.n : col.ok=False; a[int(len(a)*r())] = x
-
 def ok(col):
-  if col.ako is NUM and not col.ok: 
+  if col.ako is NUM and not col.sorted: 
     col._has = sorted(col._has)
-    col.ok=True
+    col.sorted=True
   return col
 
 def mid(col):
@@ -179,9 +179,13 @@ def betters(data, rows=None):
 #   tmp = (col.hi - col.lo)/(the.bins - 1)
 #   return col.hi == col.lo and 1 or int(x/tmp + .5)*tmp
 
+# # asdas
+# asdasd
+# asdass
+
 def freqs(best, rest, also=lambda *_:True):
   out = {}
-  def remember(a,b,c,d): k=(a,b,c,d); out[k] = out.get(k,0) + 1; also(a,b,c)
+  def remember(y,col,lo,hi): k=(y,col,lo,hi); out[k]=out.get(k,0)+1; also(col,lo,hi)
   for col in best.cols.x:
     x = lambda row: row.cells[col.at]
     rows  = [row for row in best.rows + rest.rows if x(row) != &#34;?&#34;]
@@ -198,9 +202,9 @@ def discretize(rows,x):
   rows  = sorted(rows,key=x)
   eps   = stdev(rows, x) * the.cohen
   small = int(len(rows) / the.bins)
-  bins += [BIN()]
+  bins  = [BIN()]
   for i,row in enumerate(rows):
-    now       = all[-1]
+    now       = bins[-1]
     now.lo    = min(x(row),now.lo)
     now.hi    = max(x(row),now.hi)
     now.rows += [row]
@@ -220,7 +224,8 @@ def merges(b4):
         i += 1
     now += [one]
     i += 1
-  return fillInTheGaps(b4) if len(b4) == len(now) else merges(now)
+  return fillInTheGaps(sorted(b4,key=lambda x:x.lo)) \
+         if len(b4) == len(now) else merges(now)
 
 def merged(col1, col2):
   col12 = deepcopy(col1)
@@ -230,7 +235,10 @@ def merged(col1, col2):
 
 def fillInTheGaps(a):
   a[0].lo, a[-1].hi = -inf, inf
-  for i in ranges(len(a)-1): a[i].hi = a[i+1].lo
+  #print(&#34;&#34;)
+  #[print(&#34;&gt;&gt; &#34;,x.lo, x.hi) for x in a]
+  for i in range(len(a)-1): a[i].hi = a[i+1].lo
+  #for x in a: print(&#34;&lt;&lt; &#34;,x.lo, x.hi) 
   return a
 
 # def showBins(bins):
@@ -244,7 +252,7 @@ def fillInTheGaps(a):
 # def rules(bins,fun):
 #   best = 0
 #   for i in range(4): 
-#     some = bins[:i+1]
+#     some = bins[:i+1]))))
 #     _and = set.intersection
 #     _or  = set.union
 #     a    = {}
@@ -280,26 +288,28 @@ def fillInTheGaps(a):
 <span>def <span class="ident">SYM</span></span>(<span>c=0, s=' ')</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>summarize stream of symbols</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def SYM(c=0,s=&#34; &#34;):
-   return BAG(ako=SYM, at=c, txt=s, n=0, _has={},mode=None,most=0)</code></pre>
+  &#34;summarize stream of symbols&#34;
+  return BAG(ako=SYM, at=c, txt=s, n=0, _has={},mode=None,most=0)</code></pre>
 </details>
 </dd>
 <dt id="ragworm.NUM"><code class="name flex">
 <span>def <span class="ident">NUM</span></span>(<span>c=0, s=' ')</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>summarize stream of numbers</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def NUM(c=0,s=&#34; &#34;):
-  return BAG(ako=NUM, at=c, txt=s, n=0, _has=[], ok=False,
+  &#34;summarize stream of numbers&#34;
+  return BAG(ako=NUM, at=c, txt=s, n=0, _has=[], sorted=False,
               lo=inf, hi=-inf, w = -1 if s[-1]==&#34;-&#34; else 1)</code></pre>
 </details>
 </dd>
@@ -307,12 +317,13 @@ def fillInTheGaps(a):
 <span>def <span class="ident">COLS</span></span>(<span>words)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>factory for generating summary objects</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def COLS(words):
+  &#34;factory for generating summary objects&#34;
   cols = BAG(ako=COLS, names=words, x=[], y=[], all=[], klass=None)
   for c,s in enumerate(words):
     col = (NUM if s[0].isupper() else SYM)(c,s)
@@ -403,22 +414,10 @@ def fillInTheGaps(a):
   else:
     col.lo = min(x, col.lo)
     col.hi = max(x, col.hi)
-    keepSome(col, col._has, x)
+    a = col._has
+    if   len(a) &lt; the.some    : col.sorted=False; a += [x]
+    elif r() &lt; the.some/col.n : col.sorted=False; a[int(len(a)*r())] = x
   return col</code></pre>
-</details>
-</dd>
-<dt id="ragworm.keepSome"><code class="name flex">
-<span>def <span class="ident">keepSome</span></span>(<span>col, a, x)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def keepSome(col,a,x):
-  if len(a) &lt; the.nums      : col.ok=False; a += [x]
-  elif r() &lt; the.nums/col.n : col.ok=False; a[int(len(a)*r())] = x</code></pre>
 </details>
 </dd>
 <dt id="ragworm.ok"><code class="name flex">
@@ -431,9 +430,9 @@ def fillInTheGaps(a):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def ok(col):
-  if col.ako is NUM and not col.ok: 
+  if col.ako is NUM and not col.sorted: 
     col._has = sorted(col._has)
-    col.ok=True
+    col.sorted=True
   return col</code></pre>
 </details>
 </dd>
@@ -540,7 +539,7 @@ def fillInTheGaps(a):
 </summary>
 <pre><code class="python">def freqs(best, rest, also=lambda *_:True):
   out = {}
-  def remember(a,b,c,d): k=(a,b,c,d); out[k] = out.get(k,0) + 1; also(a,b,c)
+  def remember(y,col,lo,hi): k=(y,col,lo,hi); out[k]=out.get(k,0)+1; also(col,lo,hi)
   for col in best.cols.x:
     x = lambda row: row.cells[col.at]
     rows  = [row for row in best.rows + rest.rows if x(row) != &#34;?&#34;]
@@ -567,9 +566,9 @@ def fillInTheGaps(a):
   rows  = sorted(rows,key=x)
   eps   = stdev(rows, x) * the.cohen
   small = int(len(rows) / the.bins)
-  bins += [BIN()]
+  bins  = [BIN()]
   for i,row in enumerate(rows):
-    now       = all[-1]
+    now       = bins[-1]
     now.lo    = min(x(row),now.lo)
     now.hi    = max(x(row),now.hi)
     now.rows += [row]
@@ -599,7 +598,8 @@ def fillInTheGaps(a):
         i += 1
     now += [one]
     i += 1
-  return fillInTheGaps(b4) if len(b4) == len(now) else merges(now)</code></pre>
+  return fillInTheGaps(sorted(b4,key=lambda x:x.lo)) \
+         if len(b4) == len(now) else merges(now)</code></pre>
 </details>
 </dd>
 <dt id="ragworm.merged"><code class="name flex">
@@ -629,7 +629,10 @@ def fillInTheGaps(a):
 </summary>
 <pre><code class="python">def fillInTheGaps(a):
   a[0].lo, a[-1].hi = -inf, inf
-  for i in ranges(len(a)-1): a[i].hi = a[i+1].lo
+  #print(&#34;&#34;)
+  #[print(&#34;&gt;&gt; &#34;,x.lo, x.hi) for x in a]
+  for i in range(len(a)-1): a[i].hi = a[i+1].lo
+  #for x in a: print(&#34;&lt;&lt; &#34;,x.lo, x.hi) 
   return a</code></pre>
 </details>
 </dd>
@@ -674,7 +677,6 @@ src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" 
 <li><code><a title="ragworm.BIN" href="#ragworm.BIN">BIN</a></code></li>
 <li><code><a title="ragworm.adds" href="#ragworm.adds">adds</a></code></li>
 <li><code><a title="ragworm.add" href="#ragworm.add">add</a></code></li>
-<li><code><a title="ragworm.keepSome" href="#ragworm.keepSome">keepSome</a></code></li>
 <li><code><a title="ragworm.ok" href="#ragworm.ok">ok</a></code></li>
 <li><code><a title="ragworm.mid" href="#ragworm.mid">mid</a></code></li>
 <li><code><a title="ragworm.div" href="#ragworm.div">div</a></code></li>
