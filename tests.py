@@ -10,6 +10,13 @@ def thed():
   print(str(the)[:30],"... ",end="")
 
 @eg
+def power():
+  "powerset"
+  print([x for x in powerset([1,2,3])],end=" ")
+  return 2**3 -1 == len([x for x in powerset([1,2,3])])
+
+
+@eg
 def csvd():
   "read csv"
   return 3192==sum((len(a) for a in csv(the.file)))
@@ -64,8 +71,11 @@ def bins():
   data0 = DATA("../data/auto93.csv")
   best,rest = betters(data0)
   s = set()
-  freqs(best,rest,also=lambda cl,lo,hi: s.add((cl,lo,hi))
+  freqs(best,rest,also=lambda cl,lo,hi: s.add((cl,lo,hi)))
+  print(sorted(list(s)))
   for (cl,lo,hi) in sorted([s1 for s1 in s]): 
-        print(data0.cols.all[cl].txt,lo,hi)
+     print(cl,data0.cols.all[cl].txt,
+           "-inf" if lo==ninf else lo,
+           "inf" if hi==inf else hi)
 
 if __name__ == '__main__': runs(the,egs)

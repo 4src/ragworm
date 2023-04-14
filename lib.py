@@ -80,6 +80,13 @@ def cli(d):
       d[k] = coerce(v)
   return d
 #------------------------------------------------ --------- --------- ----------
+def powerset(s):
+  x = len(s)
+  for i in range(1 << x):
+     if tmp :=  [s[j] for j in range(x) if (i & (1 << j))]:
+         yield tmp
+
+#------------------------------------------------ --------- --------- ----------
 def runs(the,funs):
   the=cli(the)
   if the.help:  return yell(the._help,"yellow")
