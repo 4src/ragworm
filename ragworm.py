@@ -122,7 +122,7 @@ def better(data, row1, row2):
   return s1 / n < s2 / n
 
 def betters(data, rows=None):
-  "Divide `data` into `best` and `rest`. Returns `best` and `rest` as `datas`.""
+  "Divide `data` into `best` and `rest`. Returns `best` and `rest` as `datas`."
   rows = sorted(rows or data.rows,
                key = cmp_to_key(lambda r1,r2:better(data,r1,r2)))
   cut = len(rows) - int(len(rows))**the.Min
