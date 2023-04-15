@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>ragworm API documentation</title>
-<meta name="description" content="ragworm.py : the smallest brain I can imagine
+<meta name="description" content="ragworm.py : the AI with the smallest brain
 (c) 2023 Tim Menzies &lt;timm@ieee.og&gt; BSD-2 …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -13,8 +13,24 @@
 <style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
 <style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<link rel="preconnect" href="https://www.google.com">
+<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>
+.gsc-control-cse {padding:0 !important;margin-top:1em}
+body.gsc-overflow-hidden #sidebar {overflow: visible;}
+</style>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
 <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+&nbsp;
+&nbsp;
+<a href="https://github.com/4src/ragworm/blob/master/README.md"> <img
+src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width=35></a>
+&nbsp;
+<a href="ragworm.html">ragworm.py</a>
+:: <a href="lib.html">lib.py</a>
+:: <a href="tests.html">tests.py</a>
+<br clear=all>
+<hr>
 </head>
 <body>
 <main>
@@ -23,8 +39,7 @@
 <h1 class="title">Module <code>ragworm</code></h1>
 </header>
 <section id="section-intro">
-<p>ragworm.py : the smallest brain I can imagine
-<br>
+<p>ragworm.py : the AI with the smallest brain <br>
 (c) 2023 Tim Menzies <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#116;&#105;&#109;&#109;&#64;&#105;&#101;&#101;&#101;&#46;&#111;&#103;">&#116;&#105;&#109;&#109;&#64;&#105;&#101;&#101;&#101;&#46;&#111;&#103;</a> BSD-2</p>
 <p>USAGE:
 <br>
@@ -44,6 +59,9 @@ data file
 -g &ndash;go
 start up action
 = nothing<br>
+-h &ndash;help
+show help
+= False<br>
 -k &ndash;k
 Naive Bayes, low class frequency control
 = 1<br>
@@ -67,7 +85,7 @@ keep at least this number of numbers
 </summary>
 <pre><code class="python"># vim: set et sts=2 sw=2 ts=2 :
 &#34;&#34;&#34;
-ragworm.py : the smallest brain I can imagine    
+ragworm.py : the AI with the smallest brain   
 (c) 2023 Tim Menzies &lt;timm@ieee.og&gt; BSD-2
 
 USAGE:    
@@ -79,28 +97,31 @@ OPTIONS:
   -c --cohen  cohen&#39;s delta                                = .5  
   -f --file   data file                                    = ../data/auto93.csv  
   -g --go     start up action                              = nothing  
+  -h --help   show help                                    = False  
   -k --k      Naive Bayes, low class frequency control     = 1  
   -m --m      Naive Bayes, low attribute frequency control = 2  
   -M --Min    recursion stops at N**M                      = .5  
   -r --rest   look at rest*|best| items                    = 3  
   -s --seed   random number seed                           = 1234567891   
   -S --Some   keep at least this number of numbers         = 256
-
 &#34;&#34;&#34;
 from lib import *
 the=settings(__doc__)
 #------------------------------------------------ --------- --------- ----------
 def SYM(c=0,s=&#34; &#34;):
-  &#34;summarize stream of symbols&#34;
+  &#34;Summarize stream of symbols.&#34;
   return BAG(ako=SYM, at=c, txt=s, n=0, _has={},mode=None,most=0)
 
 def NUM(c=0,s=&#34; &#34;):
-  &#34;summarize stream of numbers&#34;
+  &#34;Summarize stream of numbers.&#34;
   return BAG(ako=NUM, at=c, txt=s, n=0, _has=[], sorted=False,
               lo=inf, hi=-inf, w = -1 if s[-1]==&#34;-&#34; else 1)
 
 def COLS(words):
-  &#34;factory for generating summary objects&#34;
+  &#34;&#34;&#34;Factory for generating summary objects. Should be called  on the row
+  columns names, top of a csv file. Upper case words become NUMs, others 
+  are SYMs. Goals (ending in `+-!`) are added to a `y` list and others are 
+  added to `x`. Anything ending in `X` is something to ignore.&#34;&#34;&#34;
   cols = BAG(ako=COLS, names=words, x=[], y=[], all=[], klass=None)
   for c,s in enumerate(words):
     col = (NUM if s[0].isupper() else SYM)(c,s)
@@ -111,21 +132,26 @@ def COLS(words):
   return cols
 
 def DATA(src, rows=[]):
+  &#34;&#34;&#34;Factory for making a `data` object either from a csv file (if `src` is a
+  file name) or copying the structure of another `data` (f `src` is a `data`).
+  Optionally, the new data can be augmented with `rows`.&#34;&#34;&#34;
   data = BAG(ako=DATA, cols=[], rows=[])
-  if type(src)==str:
-    [adds(data, ROW(a)) for a in csv(src)]
-  elif src.ako is DATA:
-    data.cols = COLS(src.cols.names)
+  if type(src)==str   : [adds(data, ROW(a)) for a in csv(src)]
+  elif src.ako is DATA: data.cols = COLS(src.cols.names)
   [adds(data,row) for row in rows]
   return data
 
 def ROW(a):
+  &#34;Make a row containing `cells` to store data.&#34;
   return BAG(ako=ROW, cells=a)
 
 def BIN():
+  &#34;&#34;&#34;Create a `bin` for some column that stores rows. This is a place  to remember
+  the labels seen in every row, and the `lo,hi` values seen in that column.&#34;&#34;&#34;
   return BAG(ako=BIN, rows=[], lo=inf, hi=-inf, ys=SYM())
 #------------------------------------------------ --------- --------- ----------
 def adds(data,row):
+  &#34;Summarize `row` inside `data` (and  keep `row` in `data.rows`).&#34;
   if data.cols:
     data.rows += [row]
     for col in data.cols.all: add(col,row.cells[col.at])
@@ -133,6 +159,7 @@ def adds(data,row):
     data.cols = COLS(row.cells)
 
 def add(col,x,inc=1):
+  &#34;Increment counts of symbols seen (in SYMs), or numbers kept (in NUMs).&#34;
   if x == &#34;?&#34;: return x
   col.n += inc
   if col.ako is SYM:
@@ -144,29 +171,34 @@ def add(col,x,inc=1):
     a = col._has
     if   len(a) &lt; the.Some    : col.sorted=False; a += [x]
     elif r() &lt; the.Some/col.n : col.sorted=False; a[int(len(a)*r())] = x
-  return col
 
 def ok(col):
-  if col.ako is NUM and not col.sorted: 
+  &#34;Make the column update to date. Return the column.&#34;
+  if col.ako is NUM and not col.sorted:
     col._has = sorted(col._has)
     col.sorted=True
   return col
 
 def mid(col):
+  &#34;Return central tendency.&#34;
   return col.mode if col.ako is SYM else median(ok(col)._has)
 
 def div(col):
+  &#34;Return diversity (tendency NOT to be at the central point)&#34;
   return ent(col._has) if col.ako is SYM else stdev(ok(col)._has)
 
 def stats(data, cols=None, fun=mid):
+  &#34;Return a summary of `cols` in `data`, using `fun` (defaults to `mid`).&#34;
   tmp = {col.txt: fun(col) for col in (cols or data.cols.y)}
   tmp[&#34;N&#34;] = len(data.rows)
   return BAG(**tmp)
 
 def norm(num,x):
+  &#34;Normalize `x` 0..1 for min..max.&#34;
   return x if x==&#34;?&#34; else (x - num.lo)/(num.hi - num.lo + 1/inf)
 #------------------------------------------------ --------- --------- ----------
 def better(data, row1, row2):
+  &#34;`Row1` is better than `row2` if moving to it losses less than otherwise.&#34;
   s1, s2, cols, n = 0, 0, data.cols.y, len(data.cols.y)
   for col in cols:
     a, b = norm(col,row1.cells[col.at]), norm(col,row2.cells[col.at])
@@ -175,6 +207,7 @@ def better(data, row1, row2):
   return s1 / n &lt; s2 / n
 
 def betters(data, rows=None):
+  &#34;Divide `data` into `best` and `rest`. Returns `best` and `rest` as `datas`.&#34;
   rows = sorted(rows or data.rows,
                key = cmp_to_key(lambda r1,r2:better(data,r1,r2)))
   cut = len(rows) - int(len(rows))**the.Min
@@ -209,6 +242,13 @@ def betters(data, rows=None):
 #   if x==&#34;?&#34; or col.ako == SYM: return x
 #   tmp = (col.hi - col.lo)/(the.bins - 1)
 #   return col.hi == col.lo and 1 or int(x/tmp + .5)*tmp
+
+def like(rule, klass, freq, prior):
+  f={}
+  for col,bins in rule:
+    f[col] = f.get(col,0) + freq.get((klass,col,bins.lo,bins.hi),0) # pre-compute?
+  cols = data.cols.all
+  return log(prior) + sum(math.log((f[c]+the.m*prior)/(cols[c]+the.m)) for c in f)
 
 def freqs(best, rest, also=lambda *_:True):
   out = {}
@@ -315,13 +355,13 @@ def fillInTheGaps(a):
 <span>def <span class="ident">SYM</span></span>(<span>c=0, s=' ')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>summarize stream of symbols</p></div>
+<div class="desc"><p>Summarize stream of symbols.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def SYM(c=0,s=&#34; &#34;):
-  &#34;summarize stream of symbols&#34;
+  &#34;Summarize stream of symbols.&#34;
   return BAG(ako=SYM, at=c, txt=s, n=0, _has={},mode=None,most=0)</code></pre>
 </details>
 </dd>
@@ -329,13 +369,13 @@ def fillInTheGaps(a):
 <span>def <span class="ident">NUM</span></span>(<span>c=0, s=' ')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>summarize stream of numbers</p></div>
+<div class="desc"><p>Summarize stream of numbers.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def NUM(c=0,s=&#34; &#34;):
-  &#34;summarize stream of numbers&#34;
+  &#34;Summarize stream of numbers.&#34;
   return BAG(ako=NUM, at=c, txt=s, n=0, _has=[], sorted=False,
               lo=inf, hi=-inf, w = -1 if s[-1]==&#34;-&#34; else 1)</code></pre>
 </details>
@@ -344,13 +384,20 @@ def fillInTheGaps(a):
 <span>def <span class="ident">COLS</span></span>(<span>words)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>factory for generating summary objects</p></div>
+<div class="desc"><p>Factory for generating summary objects. Should be called
+on the row
+columns names, top of a csv file. Upper case words become NUMs, others
+are SYMs. Goals (ending in <code>+-!</code>) are added to a <code>y</code> list and others are
+added to <code>x</code>. Anything ending in <code>X</code> is something to ignore.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def COLS(words):
-  &#34;factory for generating summary objects&#34;
+  &#34;&#34;&#34;Factory for generating summary objects. Should be called  on the row
+  columns names, top of a csv file. Upper case words become NUMs, others 
+  are SYMs. Goals (ending in `+-!`) are added to a `y` list and others are 
+  added to `x`. Anything ending in `X` is something to ignore.&#34;&#34;&#34;
   cols = BAG(ako=COLS, names=words, x=[], y=[], all=[], klass=None)
   for c,s in enumerate(words):
     col = (NUM if s[0].isupper() else SYM)(c,s)
@@ -365,17 +412,20 @@ def fillInTheGaps(a):
 <span>def <span class="ident">DATA</span></span>(<span>src, rows=[])</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Factory for making a <code>data</code> object either from a csv file (if <code>src</code> is a
+file name) or copying the structure of another <code>data</code> (f <code>src</code> is a <code>data</code>).
+Optionally, the new data can be augmented with <code>rows</code>.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def DATA(src, rows=[]):
+  &#34;&#34;&#34;Factory for making a `data` object either from a csv file (if `src` is a
+  file name) or copying the structure of another `data` (f `src` is a `data`).
+  Optionally, the new data can be augmented with `rows`.&#34;&#34;&#34;
   data = BAG(ako=DATA, cols=[], rows=[])
-  if type(src)==str:
-    [adds(data, ROW(a)) for a in csv(src)]
-  elif src.ako is DATA:
-    data.cols = COLS(src.cols.names)
+  if type(src)==str   : [adds(data, ROW(a)) for a in csv(src)]
+  elif src.ako is DATA: data.cols = COLS(src.cols.names)
   [adds(data,row) for row in rows]
   return data</code></pre>
 </details>
@@ -384,12 +434,13 @@ def fillInTheGaps(a):
 <span>def <span class="ident">ROW</span></span>(<span>a)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Make a row containing <code>cells</code> to store data.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def ROW(a):
+  &#34;Make a row containing `cells` to store data.&#34;
   return BAG(ako=ROW, cells=a)</code></pre>
 </details>
 </dd>
@@ -397,12 +448,16 @@ def fillInTheGaps(a):
 <span>def <span class="ident">BIN</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Create a <code>bin</code> for some column that stores rows. This is a place
+to remember
+the labels seen in every row, and the <code>lo,hi</code> values seen in that column.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def BIN():
+  &#34;&#34;&#34;Create a `bin` for some column that stores rows. This is a place  to remember
+  the labels seen in every row, and the `lo,hi` values seen in that column.&#34;&#34;&#34;
   return BAG(ako=BIN, rows=[], lo=inf, hi=-inf, ys=SYM())</code></pre>
 </details>
 </dd>
@@ -410,12 +465,14 @@ def fillInTheGaps(a):
 <span>def <span class="ident">adds</span></span>(<span>data, row)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Summarize <code>row</code> inside <code>data</code> (and
+keep <code>row</code> in <code>data.rows</code>).</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def adds(data,row):
+  &#34;Summarize `row` inside `data` (and  keep `row` in `data.rows`).&#34;
   if data.cols:
     data.rows += [row]
     for col in data.cols.all: add(col,row.cells[col.at])
@@ -427,12 +484,13 @@ def fillInTheGaps(a):
 <span>def <span class="ident">add</span></span>(<span>col, x, inc=1)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Increment counts of symbols seen (in SYMs), or numbers kept (in NUMs).</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add(col,x,inc=1):
+  &#34;Increment counts of symbols seen (in SYMs), or numbers kept (in NUMs).&#34;
   if x == &#34;?&#34;: return x
   col.n += inc
   if col.ako is SYM:
@@ -443,21 +501,21 @@ def fillInTheGaps(a):
     col.hi = max(x, col.hi)
     a = col._has
     if   len(a) &lt; the.Some    : col.sorted=False; a += [x]
-    elif r() &lt; the.Some/col.n : col.sorted=False; a[int(len(a)*r())] = x
-  return col</code></pre>
+    elif r() &lt; the.Some/col.n : col.sorted=False; a[int(len(a)*r())] = x</code></pre>
 </details>
 </dd>
 <dt id="ragworm.ok"><code class="name flex">
 <span>def <span class="ident">ok</span></span>(<span>col)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Make the column update to date. Return the column.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def ok(col):
-  if col.ako is NUM and not col.sorted: 
+  &#34;Make the column update to date. Return the column.&#34;
+  if col.ako is NUM and not col.sorted:
     col._has = sorted(col._has)
     col.sorted=True
   return col</code></pre>
@@ -467,12 +525,13 @@ def fillInTheGaps(a):
 <span>def <span class="ident">mid</span></span>(<span>col)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Return central tendency.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def mid(col):
+  &#34;Return central tendency.&#34;
   return col.mode if col.ako is SYM else median(ok(col)._has)</code></pre>
 </details>
 </dd>
@@ -480,12 +539,13 @@ def fillInTheGaps(a):
 <span>def <span class="ident">div</span></span>(<span>col)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Return diversity (tendency NOT to be at the central point)</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def div(col):
+  &#34;Return diversity (tendency NOT to be at the central point)&#34;
   return ent(col._has) if col.ako is SYM else stdev(ok(col)._has)</code></pre>
 </details>
 </dd>
@@ -493,12 +553,13 @@ def fillInTheGaps(a):
 <span>def <span class="ident">stats</span></span>(<span>data, cols=None, fun=&lt;function mid&gt;)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Return a summary of <code>cols</code> in <code>data</code>, using <code>fun</code> (defaults to <code><a title="ragworm.mid" href="#ragworm.mid">mid()</a></code>).</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def stats(data, cols=None, fun=mid):
+  &#34;Return a summary of `cols` in `data`, using `fun` (defaults to `mid`).&#34;
   tmp = {col.txt: fun(col) for col in (cols or data.cols.y)}
   tmp[&#34;N&#34;] = len(data.rows)
   return BAG(**tmp)</code></pre>
@@ -508,12 +569,13 @@ def fillInTheGaps(a):
 <span>def <span class="ident">norm</span></span>(<span>num, x)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Normalize <code>x</code> 0..1 for min..max.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def norm(num,x):
+  &#34;Normalize `x` 0..1 for min..max.&#34;
   return x if x==&#34;?&#34; else (x - num.lo)/(num.hi - num.lo + 1/inf)</code></pre>
 </details>
 </dd>
@@ -521,12 +583,13 @@ def fillInTheGaps(a):
 <span>def <span class="ident">better</span></span>(<span>data, row1, row2)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p><code>Row1</code> is better than <code>row2</code> if moving to it losses less than otherwise.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def better(data, row1, row2):
+  &#34;`Row1` is better than `row2` if moving to it losses less than otherwise.&#34;
   s1, s2, cols, n = 0, 0, data.cols.y, len(data.cols.y)
   for col in cols:
     a, b = norm(col,row1.cells[col.at]), norm(col,row2.cells[col.at])
@@ -539,12 +602,13 @@ def fillInTheGaps(a):
 <span>def <span class="ident">betters</span></span>(<span>data, rows=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Divide <code>data</code> into <code>best</code> and <code>rest</code>. Returns <code>best</code> and <code>rest</code> as <code>datas</code>.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def betters(data, rows=None):
+  &#34;Divide `data` into `best` and `rest`. Returns `best` and `rest` as `datas`.&#34;
   rows = sorted(rows or data.rows,
                key = cmp_to_key(lambda r1,r2:better(data,r1,r2)))
   cut = len(rows) - int(len(rows))**the.Min
@@ -553,6 +617,23 @@ def fillInTheGaps(a):
     row.y = i &gt; cut
     (best if i &gt; cut else rest).append(row)
   return DATA(data,best), DATA(data,random.sample(rest, len(best)*the.rest))</code></pre>
+</details>
+</dd>
+<dt id="ragworm.like"><code class="name flex">
+<span>def <span class="ident">like</span></span>(<span>rule, klass, freq, prior)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def like(rule, klass, freq, prior):
+  f={}
+  for col,bins in rule:
+    f[col] = f.get(col,0) + freq.get((klass,col,bins.lo,bins.hi),0) # pre-compute?
+  cols = data.cols.all
+  return log(prior) + sum(math.log((f[c]+the.m*prior)/(cols[c]+the.m)) for c in f)</code></pre>
 </details>
 </dd>
 <dt id="ragworm.freqs"><code class="name flex">
@@ -672,10 +753,7 @@ def fillInTheGaps(a):
 <center>
 <img src="https://render.fineartamerica.com/images/rendered/default/acrylic-print/6.5/10/hangingwire/break/images-medium-5/ragworm-specimen-ucl-grant-museum-of-zoology.jpg"
 width="250"><br>
-<p>&copy; 2023, Tim Menzies<br>
-<a href="mailto:timm@ieee.org">timm@ieee.org</a><br>
-<a href="http://timm.github.io">http://timm.github.io</a>
-</p>
+</center>
 <p>
 The smallest brain I can imagine.
 </p>
@@ -683,11 +761,11 @@ The smallest brain I can imagine.
 <img src="https://img.shields.io/badge/purpose-ai%20,%20se-blueviolet">
 <a href="https://github.com/timm/bnbad/blob/master/LICENSE.md"><img
 alt="License" src="https://img.shields.io/badge/license-bsd2-red"></a> <img alt="Python" src="https://img.shields.io/badge/python-v3.11-blue">
-<br>
-<a href="https://github.com/4src/ragworm/blob/master/README.md"> <img
-src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width=75></a>
 </p>
-</center>
+<div class="gcse-search" style="height: 70px"
+data-as_oq="inurl:github.com/4src/ragworm"
+data-gaCategoryParameter="ragworm">
+</div>
 <h1>Index</h1>
 <div class="toc">
 <ul></ul>
@@ -711,6 +789,7 @@ src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" 
 <li><code><a title="ragworm.norm" href="#ragworm.norm">norm</a></code></li>
 <li><code><a title="ragworm.better" href="#ragworm.better">better</a></code></li>
 <li><code><a title="ragworm.betters" href="#ragworm.betters">betters</a></code></li>
+<li><code><a title="ragworm.like" href="#ragworm.like">like</a></code></li>
 <li><code><a title="ragworm.freqs" href="#ragworm.freqs">freqs</a></code></li>
 <li><code><a title="ragworm.discretize" href="#ragworm.discretize">discretize</a></code></li>
 <li><code><a title="ragworm.merges" href="#ragworm.merges">merges</a></code></li>
@@ -722,6 +801,8 @@ src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" 
 </nav>
 </main>
 <footer id="footer">
+&copy; 2023 <a href="https://timm.github.io">Tim Menzies</a>,
+<a href="mailto:timm@ieee.org">timm@ieee.org</a>, BSD-2.
 <p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
 </body>
