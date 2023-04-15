@@ -15,10 +15,11 @@ OPTIONS:
   -h --help   show help                                    = False  
   -k --k      Naive Bayes, low class frequency control     = 1  
   -m --m      Naive Bayes, low attribute frequency control = 2  
-  -M --Min    recursion stops at N**M                      = .5  
+  -M --Min    recursion stops at N^M                       = .5  
   -r --rest   look at rest*|best| items                    = 3  
   -s --seed   random number seed                           = 1234567891   
-  -S --Some   keep at least this number of numbers         = 256
+  -S --Some   keep at least this number of numbers         = 256   
+  -w --want   goal: plan,watch,xplore,doubt                = plan   
 """
 from lib import *
 the=settings(__doc__)
@@ -159,13 +160,17 @@ def betters(data, rows=None):
 #   return col.hi == col.lo and 1 or int(x/tmp + .5)*tmp
 
 def like(rule, klass, freq, prior):
+  "Use `freg` to score rules of the form `rule[col]=[(lo,hi),...]`"
   f={}
-  for col,bins in rule:
-    f[col] = f.get(col,0) + freq.get((klass,col,bins.lo,bins.hi),0) # pre-compute?
+  for col,lohis in rule:
+    for lo,hi in lohis:
+      f[col] = f.get(col,0) + freq.get((klass,col,lo,hi),0) 
   cols = data.cols.all
-  return log(prior) + sum(math.log((f[c]+the.m*prior)/(cols[c]+the.m)) for c in f)
+  return log(prior) + sum(math.log((f[c] + the.m*prior)/(cols[c] + the.m)) for c in f)
 
-def freqs(best, rest, also=lambda *_:True):
+def freqs(best, rest, also=lambda col,lo,hi:True):
+  """Discretize  (if needed) then return frequency counts for `freq[(klass,col,lo,hi)]`.
+  Optionally, report `col,lo,hi` to `also`. """
   out = {}
   def remember(y,col,lo,hi): k=(y,col,lo,hi); out[k]=out.get(k,0)+1; also(col,lo,hi)
   for col in best.cols.x:
@@ -181,6 +186,7 @@ def freqs(best, rest, also=lambda *_:True):
   return out
 
 def discretize(rows,x):
+  "Discretize values in `rows` for the column selected by `x`."
   rows  = sorted(rows,key=x)
   eps   = stdev(rows, x) * the.cohen
   small = int(len(rows) / the.bins)
@@ -196,6 +202,7 @@ def discretize(rows,x):
   return merges(bins)
 
 def merges(b4):
+  "Merge any uninformative neighboring ranges."
   i,now = 0,[]
   while i < len(b4):
     one = b4[i]
@@ -209,11 +216,12 @@ def merges(b4):
   return fillInTheGaps(sorted(b4,key=lambda x:x.lo)) \
          if len(b4) == len(now) else merges(now)
 
-def merged(col1, col2):
-  col12 = deepcopy(col1)
-  [add(col12,s,n) for s,n in col2._has.items()]
-  if div(col12) <= (col1.n*div(col1) + col2.n*div(col2))/col12.n:
-    return col12
+def merged(sym1, sym2):
+  "If something simpler comes from merging `sym1`,`sym2`, return that."
+  sym12 = deepcopy(sym1)
+  [add(sym12,s,n) for s,n in sym2._has.items()]
+  if div(sym12) <= (sym1.n*div(sym1) + sym2.n*div(sym2))/sym12.n:
+    return sym12
 
 def fillInTheGaps(a):
   a[0].lo, a[-1].hi = -inf, inf
@@ -222,6 +230,21 @@ def fillInTheGaps(a):
   for i in range(len(a)-1): a[i].hi = a[i+1].lo
   #for x in a: print("<< ",x.lo, x.hi) 
   return a
+
+def bins2Rules(bins):
+  rule = {}
+  for _,col,lo,hi in bins:
+    a = rule.get(col,[])
+    a += [(lo,hi)]
+    rule[col] = a
+  return rule
+
+def want(b,r,B,R):
+  b,r = b/(B+1/inf),r/(R+1/inf)
+  return dict(plan   = lambda : b**2/(b+r),
+              watch  = lambda : r**2/(b+r),
+              xplore = lambda : 1/(b+r),
+              doubt  = lambda : (b+r)/abs(b - r))[the.want]
 
 # def showBins(bins):
 #   tmp={}
