@@ -1,6 +1,6 @@
 # vim: set et sts=2 sw=2 ts=2 :
 """
-ragworm.py : the AI with the smallest brain   
+ragworm.py : the smallest AI brain I can imagine.    
 (c) 2023 Tim Menzies <timm@ieee.og> BSD-2
 
 USAGE:    

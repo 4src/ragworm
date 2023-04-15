@@ -17,7 +17,6 @@ doc: ## generate documentation
 	pdoc --html                     \
 	--config show_source_code=True    \
 	--config sort_identifiers=False     \
-	--config google_search_query=\"url:github.com/4src/ragworm\" \
 	--force -o docs --template-dir docs  \
 	tests.py lib.py ragworm.py
 
